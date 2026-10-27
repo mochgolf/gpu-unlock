@@ -1,12 +1,14 @@
-# Supermicro H13SSL-N / dual 48 GiB AD102 port
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-This is the source of **mochgolf's measured local adaptation**, based on
-`elias-gaeros/gpu-unlock` at `4ec490d49c1cc292c0b4cd5ce5a801b5d2c396dc`.
-The AD102 payload and original `gpu_unlock` module are unchanged. The accepted
-path normalizes platform-leftover PCI bus mastering in a **separate diagnostic
-module before loading the original unlock module**. A different hardened-BME
-patch was reviewed offline during development; it was not the module used for
-the accepted A/B/A or dual-card deployment and is not substituted here.
+# Supermicro H13SSL-N: two 48 GiB AD102 cards
+
+This port contains mochgolf's tested local adaptation.
+Its base is `elias-gaeros/gpu-unlock` commit `4ec490d49c1cc292c0b4cd5ce5a801b5d2c396dc`.
+The AD102 payload and original `gpu_unlock` module are unchanged.
+The accepted path clears platform-leftover BME through a separate diagnostic module before loading the original unlock module.
+
+Development also included an offline review of a different hardened-BME patch.
+That patch was not used for the accepted A/B/A experiment or dual-card deployment. This port does not substitute it.
 
 ## Tested configuration
 
@@ -21,48 +23,42 @@ the accepted A/B/A or dual-card deployment and is not substituted here.
 | Default power | 450 W per card, unchanged for deployment |
 | Firmware generation | Upstream pinned 610.43.03 assets |
 
-The DMI/BIOS/capacity/PCI guards are intentionally still pinned. Similar boards,
-different BIOSes, stock 24 GiB cards and different slot layouts are not covered
-by this hardware acceptance. The separate NVIDIA driver patches are an existing
-dependency, not part of this repository.
+The DMI, BIOS, capacity, and PCI checks remain pinned to this configuration.
+Acceptance does not cover similar boards, other BIOS versions, stock 24 GiB cards, or other slot layouts.
+The separate NVIDIA driver patches are an existing dependency. This repository does not contain them.
 
-## Files and behavior
+## Components and behavior
 
-- `gpu_bme_diag.c`, `bme_diag_core.h`: one explicitly selected function; require
-  an unbound D0 AD102, the tested firmware/cold state and no pending transaction.
-  If command is 7, write command 3 once, read it back and require the other sampled
-  state to remain unchanged. It does not start firmware, allocate DMA, reset,
-  bind a driver, or write the Tensor selectors. Uncertain writes stop; no retry
-  re-enables incoming firmware MASTER.
-- `gpu_cold_probe.c`: pre-driver read-only collector, using the upstream pure
-  parsers. Its BAR/config mappings are read-only. **Do not run this collector
-  against a GPU already owned by NVIDIA**; the production reminder uses stored
-  boot receipts instead.
-- `initramfs/experiment_init_top.sh`: the accepted dual-card pre-udev sequence,
-  success proof and stop-on-failure logic. It must run before the original udev
-  trigger and before any NVIDIA/nouveau module is present.
-- `initramfs/persist_early.sh.in`: the deployed persistence implementation with
-  just the private root device/UUID replaced by required placeholders.
-- `initramfs/verify_unlock_log.sh`: independently require all success, cleanup,
-  FLR and retained-selector receipts for each card. A successful `insmod` exit
-  alone does not qualify the transaction.
-- `stage_overlay.py`: a new, offline-verified public staging wrapper. It renders
-  the root placeholders, validates firmware/module inputs and stages files in
-  a fresh directory. It never installs an image or changes a GRUB entry.
-- `provenance.json`: hashes and exact distinctions between native-tested sources
-  and the parameterized publication template.
+- `gpu_bme_diag.c` and `bme_diag_core.h` handle one explicitly selected function.
+  They require an unbound D0 AD102, the tested cold firmware state, and no pending transaction.
+  If PCI command is 7, the diagnostic writes 3 once and reads it back.
+  The other sampled state must remain unchanged.
+  It starts no firmware, allocates no DMA, resets no device, and binds no driver. It does not write Tensor selectors.
+  An uncertain write stops the operation. No retry re-enables incoming firmware MASTER.
+- `gpu_cold_probe.c` collects pre-driver state through upstream pure parsers and read-only BAR/config mappings.
+  **Do not run it on a GPU that NVIDIA already owns.** The reminder uses stored boot receipts.
+- `initramfs/experiment_init_top.sh` implements the accepted dual-card sequence, success checks, and failure stops.
+  It must run before the original udev trigger, with no NVIDIA or nouveau module present.
+- `initramfs/persist_early.sh.in` preserves the deployed persistence logic.
+  Required placeholders replace only the private root device and UUID.
+- `initramfs/verify_unlock_log.sh` requires success, cleanup, FLR, and retained-selector evidence for each card.
+  A successful `insmod` return alone is insufficient.
+- `stage_overlay.py` is a new public wrapper with offline validation.
+  It fills the root placeholders, validates module/firmware inputs, and stages a fresh directory.
+  It does not install an image or change GRUB.
+- `provenance.json` records hashes and differences between native-tested sources and the parameterized publication template.
 
-On a pre-action cold-condition failure, the hook can hand back to the original
-udev path and explicitly records `stock-fallback-no-hardware-action`. This is
-not unlock success. Any failure after hardware action stops the boot flow and
-persists evidence. The fallback branch passed chroot tests; actual warm boot on
-this machine satisfied the cold predicates and performed a full unlock, so the
-non-cold fallback branch has not itself been forced on hardware.
+If a cold-state check fails before hardware action, the hook can return to the original udev path.
+It records `stock-fallback-no-hardware-action`. This is not unlock success.
+After any hardware action, a failure stops boot progression and saves evidence.
 
-## Build and offline checks
+The fallback branch passed chroot tests.
+The tested warm boot satisfied the cold checks and completed a full unlock.
+The non-cold fallback branch has not been forced on hardware.
 
-From the repository root, with matching headers, a C compiler and upstream
-generated firmware available:
+## Build and check without hardware access
+
+From the repository root, use matching headers, a C compiler, and generated upstream firmware:
 
 ```sh
 make test ASSETS=/path/to/generated/610.43.03/assets
@@ -71,13 +67,16 @@ make -C ports/supermicro-h13ssl KDIR=/lib/modules/7.0.0-34-generic/build
 make -C ports/supermicro-h13ssl test
 ```
 
-The port tests include 21 BME transaction/fault cases, 42 fake-PCI collector/proof
-checks when assets are available, and 19 reminder state/notification tests.
-These do not touch real PCI devices. CI without generated firmware skips the
-42-case collector fixture explicitly; that is not a hardware acceptance result.
+The suite includes 21 BME transaction/fault cases and 19 reminder tests.
+With assets available, it also runs 42 fake-PCI collector/proof checks.
+These tests do not access real PCI devices.
+Without generated firmware, CI explicitly skips the 42-case collector fixture.
 
-Example staging invocation; provide hashes of the **reviewed binaries you intend
-to use**, rather than blindly accepting a binary with matching vermagic:
+Host test results do not constitute hardware acceptance.
+
+Before staging, review the binaries and obtain their SHA-256 hashes.
+A matching vermagic alone is insufficient.
+Use this example with your reviewed inputs:
 
 ```sh
 python3 ports/supermicro-h13ssl/stage_overlay.py \
@@ -92,25 +91,26 @@ python3 ports/supermicro-h13ssl/stage_overlay.py \
   --cold-probe build/h13ssl/gpu_cold_probe
 ```
 
-The original deployment used a separately built image, preserved the original
-microcode prefix and all original initramfs files, and inserted `00_gpu_ab`
-before the original `udev` entry in `scripts/init-top/ORDER`. A visible, unchanged
-safe-A entry and independent console recovery were retained. The pinned root
-partition must contain a root-owned mode-0700
-`/var/backups/gpu-unlock-ab-events` before the early persistence hook runs.
-Merely copying this overlay onto an active machine is not an installation.
+## Boot-image requirements
 
-The public wrapper and template rendering have offline/build validation. They
-were not reinstalled or given another firmware run just for publication. The
-source transaction and boot flow were accepted on the configuration above.
+The original deployment used a separately built image.
+It preserved the original microcode prefix and every original initramfs file.
+It inserted `00_gpu_ab` before the original `udev` entry in `scripts/init-top/ORDER`.
+The visible safe-A entry remained unchanged. Independent console recovery remained available.
+
+Before the persistence hook runs, prepare `/var/backups/gpu-unlock-ab-events` on the pinned root partition.
+The directory must be root-owned with mode 0700.
+Copying the overlay onto an active machine does not install it.
+
+The public wrapper and template rendering passed offline and build checks.
+Publication did not install them or execute firmware again.
+The source transaction and boot flow passed native acceptance only on the configuration above.
 
 ## Acceptance and performance
 
-Cold A1 / unlocked B1 / cold locked A2 verified the target gain while a second
-physical card remained a locked control. Subsequent dual-card deployment passed
-native checks, an ordinary warm reboot and a cold start. Details, retained
-negative results and application-comparison limits are in the
-[benchmark report](../../benchmarks/2026-10-26/README.md).
+Cold locked A1, unlocked B1, and cold locked A2 confirmed the target gain.
+A second physical card stayed locked as the control.
+Later dual-card deployment passed native checks, an ordinary warm reboot, and a cold start.
+Read the [benchmark report](../../benchmarks/2026-10-26/README.md) for measurements, negative results, and application limits.
 
-The optional [boot/SSH reminder](../../monitoring/README.md) reports failed or
-unconfirmed evidence without doing another hardware transaction.
+The optional [boot/SSH reminder](../../monitoring/README.md) reports missing or failed evidence without another hardware transaction.

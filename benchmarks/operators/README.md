@@ -1,16 +1,24 @@
-# Synthetic project-shaped operator probes
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-`worker.py` benchmarks representative MOSS BF16 projection/attention/LoRA/SiTU/
-normalization and Qwen GEMV/HC/W4A16 MoE/GDN shapes. `paired_gemm.py` interleaves
-cuBLAS, cuBLASLt and the independent 128x128 Triton candidate on identical
-inputs. These are diagnostic tools, not deployed model patches.
+# Synthetic operator probes for MOSS and Qwen
 
-Use the corresponding project's existing Python environment and dependency
-versions. The Qwen cases need the SGLang and QSA plugin source revisions in the
-report; the MOSS cases import `kohakumoss_kernels`. No model weights are loaded.
-Allow sufficient free VRAM and isolate real traffic before running these finite
-GPU workloads. The worker caps its own PyTorch allocator at 1400 MiB but does not
-itself manage a production service or prevent outside requests.
+`worker.py` measures representative operator shapes from both projects.
+MOSS cases cover BF16 projection, attention, LoRA, SiTU, and normalization.
+Qwen cases cover GEMV, HC, W4A16 MoE, and GDN.
+`paired_gemm.py` alternates cuBLAS, cuBLASLt, and the independent 128×128 Triton candidate with identical inputs.
+
+These tools diagnose performance. They do not install model patches.
+
+## Prepare and run
+
+Use the project's existing Python environment and dependency versions.
+For Qwen, use the SGLang and QSA source revisions in the [report](../2026-10-26/README.md).
+MOSS cases import `kohakumoss_kernels`. The probes load no model weights.
+
+Before running, provide sufficient free VRAM and isolate production traffic.
+The worker limits its own PyTorch allocator to 1400 MiB.
+That limit does not manage a service or prevent outside requests.
+Use a new output directory for each experiment:
 
 ```sh
 CUDA_VISIBLE_DEVICES=0 python worker.py --project moss --output /tmp/moss-operators
@@ -18,25 +26,31 @@ CUDA_VISIBLE_DEVICES=0 python worker.py --project qwen --output /tmp/qwen-operat
 CUDA_VISIBLE_DEVICES=0 python paired_gemm.py --output /tmp/moss-gemm-paired
 ```
 
-Use a new output directory for every experiment. Results include the individual
-event samples, finite checks and selected numerical diagnostics. Each ordinary
-operator uses 21 CUDA-graph event samples. Qwen additionally records 31 samples
-after a 96 MiB cache-eviction read; tiny hot-cache operators are not equivalent
-to complete-model layer timings. Paired GEMMs use seven alternating sweeps and
-five measurements per implementation per sweep. Samples are correlated.
+## Samples and profiler settings
 
-Counter mode wraps one operation in NVTX `operator_probe`. The published Qwen
-counter results use application replay, cache-control none and clock-control
-none, with explicit pre-range eviction. Keep profiler timings separate from
-ordinary CUDA event timings. The initial kernel-replay HC/GDN cache discrepancy
-was retained in the local audit and corrected with application replay.
+Outputs include individual CUDA event samples, finite checks, and selected numerical diagnostics.
+Each ordinary operator uses 21 CUDA-graph event samples.
+Qwen also records 31 samples after a 96 MiB cache-eviction read.
+A tiny operator with hot cache does not represent complete-model layer timing.
 
-The full-512-expert MoE uses synthetic packed W4 weights, group128, top10 and
-TP2-local intermediate padding to384. It is not a validation of production
-weights or all padding values. `dgrad` tests the backward GEMM dimensions with
-continuous synthetic weights, not every production transpose stride. The Triton
-candidate has no validated training integration/backward replacement.
+Paired GEMMs use seven alternating sweeps, with five measurements per implementation in each sweep.
+The samples are correlated.
 
-See the [results and limitations](../2026-10-26/README.md). The local traffic
-guard/controller, private host configuration, credentials and boot images are
-not included in this public benchmark package.
+Counter mode places one operation inside NVTX range `operator_probe`.
+Published Qwen counters use application replay, cache-control none, and clock-control none.
+An explicit eviction read occurs before the range.
+Keep profiler timings separate from ordinary CUDA event timings.
+
+The local audit retained the initial HC/GDN kernel-replay cache discrepancy and corrected collection with application replay.
+
+## Scope and limits
+
+The 512-expert MoE uses synthetic packed W4 weights, group128, top10, and TP2-local intermediate padding to 384.
+This does not validate production weights or every padding value.
+`dgrad` tests backward GEMM dimensions with continuous synthetic weights.
+It does not cover every production transpose stride.
+
+The Triton candidate has no validated training integration or backward replacement.
+
+Read the [results and limitations](../2026-10-26/README.md) before interpreting the measurements.
+The public package excludes the private traffic guard/controller, host configuration, credentials, and boot images.

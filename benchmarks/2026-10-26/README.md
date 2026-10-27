@@ -1,30 +1,35 @@
-# Dual RTX 4090 validation and performance — 2026-10-26
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-**The controlled result is about 1.98x BF16 Tensor throughput with FP32
-accumulation. Real application gains are much smaller.** The 11% MOSS training
-comparison is observational history with known confounders. Recent Qwen
-single-request decoding is approximately unchanged. An independent Triton
-kernel comparison is a separate software result, not unlock speedup.
+# Dual RTX 4090: validation and performance, 2026-10-26
+
+**Controlled BF16 Tensor throughput with FP32 accumulation increased by about 1.98×.**
+Application gains were smaller. The historical MOSS comparison showed about 11% higher training throughput, with known confounders.
+Recent Qwen single-request decoding stayed approximately unchanged.
+
+The independent Triton comparison measures software implementation differences, not unlock speedup.
 
 ## Configuration and method
 
-Supermicro H13SSL-N, BIOS 3.5; two modified 48 GiB AD102 RTX4090 (`10de:2684`,
-49,140 MiB each), ASPEED console, four NUMA nodes. Kernel7.0.0-34-generic,
-locally patched nvidia-open-p2p/595.84 with 48 GiB and P2P support, 450 W/card.
-This is not a stock-driver or stock-24 GiB-board qualification. MMA was compiled
-with nvcc12.8.93, `-O3 -arch=sm_89`; PyTorch operator work used 2.14.1/cu130 and
-Triton 3.8.0. No overclock or higher-than-default power limit was used.
+The system used Supermicro H13SSL-N BIOS 3.5, an ASPEED console, and four NUMA nodes.
+It had two modified 48 GiB AD102 RTX 4090 cards, `10de:2684`, reporting 49,140 MiB each.
+The kernel was `7.0.0-34-generic`. The custom `nvidia-open-p2p/595.84` driver supported 48 GiB and P2P.
 
-The port did not change the upstream AD102 payload or unlock module. It added
-separate pre-driver BME normalization and a verified pre-udev dual-card boot
-flow. The diagnostic is pinned to the tested board, BIOS, capacity and slots.
+Each card retained its default 450 W limit. The tests used no overclock.
+This acceptance does not cover stock drivers or stock 24 GiB boards.
+MMA used nvcc 12.8.93 with `-O3 -arch=sm_89`.
 
-The controlled sequence was cold locked A1, target-unlocked B1, cold locked A2;
-a second card stayed locked as control. We retained all primary and matched-
-context samples, including clock-ramp variation, negative/small GEMM results
-and failed admission attempts. The table below is the matched-context supplement:
-30 repetitions per MMA mode/arm and10 per GEMM shape/arm. Shared binaries and
-libraries were pinned. This is one-machine evidence, not fleet qualification.
+Operator tests used PyTorch 2.14.1/cu130 and Triton 3.8.0.
+
+The port kept the upstream AD102 payload and unlock module unchanged.
+It added separate pre-driver BME normalization and a verified pre-udev dual-card sequence.
+The diagnostic pins the board, BIOS, capacity, and slots.
+
+The controlled sequence was cold locked A1, target-unlocked B1, then cold locked A2.
+A second card stayed locked as the control.
+The evidence retains primary and matched-context samples, clock-ramp variation, negative or small GEMM results, and failed admission attempts.
+The tables below use the matched-context supplement: 30 repetitions per MMA mode per phase and 10 per GEMM shape per phase.
+
+Shared binaries and libraries were pinned. These results cover one machine, not a fleet.
 
 ## Controlled A/B/A Tensor results
 
@@ -37,9 +42,9 @@ libraries were pinned. This is one-machine evidence, not fleet qualification.
 | dp4a (TOP/s) | 163.10 | 163.15 | 163.20 | 1.0003x |
 | ffma (TFLOP/s) | 78.40 | 78.40 | 78.60 | 1.0000x |
 
-The locked control card's BF16 result stayed at about 162.9 TFLOP/s across all
-three arms. Scalar FP32 and integer controls did not show a corresponding2x
-increase. [All individual samples and control-normalized comparisons](ab-a-matched.json).
+The locked control card stayed near 162.9 TFLOP/s for BF16 in all three phases.
+Scalar FP32 and integer controls did not show a corresponding 2× increase.
+See [individual samples and control-normalized comparisons](ab-a-matched.json).
 
 ## Controlled cuBLAS GEMM results
 
@@ -52,61 +57,71 @@ increase. [All individual samples and control-normalized comparisons](ab-a-match
 | fp16 / 8192-8192-8192 | 160.67 | 181.70 | 160.76 | 1.1309x |
 | fp16 / 256-512-16384 | 119.52 | 110.38 | 110.38 | 0.9235x |
 
-BF16 4096-cubed barely changed;8192-cubed improved about 18.8%. The small FP16
-case changed between locked A1 and locked A2 too, so its first-baseline drop is
-not a clean unlock effect. Do not generalize peak MMA improvement to arbitrary
-library kernels. All retained full-output GEMM comparisons in this supplement
-were bitwise equal, with finite checks and independent sampled error budgets.
-This does not prove all future models or inputs are numerically identical.
+BF16 4096³ stayed almost unchanged. BF16 8192³ improved by about 18.8%.
+The small FP16 case also differed between locked A1 and locked A2.
+Its decrease from the first baseline therefore does not isolate an unlock effect.
 
-Primary A1/B1/A2 each passed 59 configured cases, including approximately30 min
-of stability work per arm. The original A0 legacy28 GiB P2P mapping failure was
-retained; it was not erased by the later VMM P2P success. This custom driver
-needs its proven VMM path for the accepted large-memory workload.
+Peak MMA gain does not predict every library kernel's gain.
+
+All retained full-output GEMM comparisons in this supplement were bitwise equal.
+Finite checks and independent sampled error budgets also passed.
+These checks do not prove identical results for every future model or input.
+Each primary phase passed 59 configured cases, including about 30 minutes of stability work.
+
+The evidence retains the original A0 failure with a legacy 28 GiB P2P mapping.
+Later VMM P2P success does not erase that failure.
+The accepted large-memory workload requires this custom driver's tested VMM path.
 
 ## Native deployment acceptance
 
-Both GPUs were subsequently enabled as a persistent GRUB default while the
-unchanged original safe-A entry remained first in the visible menu. Initial
-dual cold boot, a persistent-default ordinary warm reboot, and a persistent-
-default cold start were tested. Warm reboot on this machine satisfied the cold
-predicates and completed a full unlock. The alternative pre-action stock-driver
-fallback is only chroot-tested for a non-cold failure; any post-action failure
-still stops. It must not be advertised as universally fail-safe warm-boot support.
+Both GPUs later became enabled through a persistent GRUB default.
+The unchanged safe-A entry remained first in the visible menu.
+Acceptance covered an initial dual cold boot, an ordinary warm reboot, and a cold start with the persistent default.
+The warm reboot met the cold-state checks and completed a full unlock on this machine.
 
-Final native acceptance included 33 cases: numerical checks,28 GiB allocation in
-two memory modes, bidirectional1 MiB VMM P2P and MMA checks. Four independent
-single-GPU MOSS jobs completed 800 optimizer steps with zero nonfinite steps;
-8 inference images were generated, with4 cross-GPU output pairs identical.
-These are system-load and numerical checks, not a new model-quality result.
-Qwen sustained service load completed 460 requests with zero observed errors.
-That mixed-workload205.96output-token/s result had about79.8% input-cache hits;
-it is not comparable to a steady decode-only batch-throughput number.
+The non-cold, pre-action stock-driver fallback passed chroot tests only.
+Any failure after hardware action still stops the flow.
+These results do not establish universal warm-boot recovery.
 
-## Historical MOSS application comparison (not a new causal A/B)
+Final native acceptance passed 33 cases, including numerical checks and 28 GiB allocation in two memory modes.
+It also covered bidirectional 1 MiB VMM P2P and MMA checks.
+Four independent single-GPU MOSS jobs completed 800 optimizer steps with zero nonfinite steps.
+Eight inference images formed four cross-GPU pairs. Each pair was bitwise identical.
 
-Use total tokens/total interval time, not historical10-step logging medians vs
-current1-step medians. Steps51–140 match exactly:90 steps,237 samples,
-948,960 tokens, same A data/cache/model/BF16/rank16/seed and original offload
-policy, excluding warm-up/save/validation. All9 paired10-step windows improved.
+These are system-load and numerical checks. They do not establish model quality.
+Qwen completed 460 service-load requests with zero observed errors.
+That mixed workload achieved 205.96 output-token/s with about 79.8% input-cache hits.
+
+It cannot serve as a steady decode-only batch-throughput comparison.
+
+## Historical MOSS comparison
+
+This comparison uses total tokens divided by total interval time.
+It does not compare historical 10-step logging medians with current 1-step medians.
+Matched steps 51–140 contain 90 steps, 237 samples, and 948,960 tokens.
+Both runs used the same A data, cache, model, BF16, rank16, seed, and original offload policy.
+
+The interval excludes warm-up, saving, and validation. All nine matched 10-step windows improved.
 
 | Training policy | Historical token/s | Current token/s | Throughput change |
 |---|---:|---:|---:|
 | Same original offload | 2753.94 | 3057.85 | +11.04% |
 | Current resident policy vs old offload | 2753.94 | 3232.95 | +17.39% |
 
-Residency itself adds about5.73% over the current original-offload policy.
-Explicit NUMA binding was added to the current launcher, logging changed and
-boot/date/cache state differ: the11% is not all attributable to the unlock.
-Image generation averaged42.90s/image historically vs38.13–38.66s currently;
-that32-image balanced vs4-image/card speed-profile comparison also changed
-prompts/text lengths and cannot isolate unlock gain.
-[Selected history measurements and denominators](historical-applications.json).
+The current resident policy adds about 5.73% over the current original-offload policy.
+The current launcher also adds explicit NUMA binding.
+Logging, boot, date, and cache conditions differ. The 11% gain cannot all be attributed to the unlock.
 
-## Qwen single-request service speed
+Historical inference averaged 42.90 s/image. Current inference averaged 38.13–38.66 s/image.
+The historical test used 32 balanced-profile images; the current test used four speed-profile images per card.
+Prompts and text lengths also changed. This comparison cannot isolate unlock gain.
 
-TP2, concurrency1, no prefix-cache hits, temperature0, thinking disabled;
-2 warm-ups then17 measured requests, each producing512 output tokens.
+See [history measurements and denominators](historical-applications.json).
+
+## Qwen single-request speed
+
+The test used TP2, concurrency 1, temperature 0, thinking disabled, and no prefix-cache hits.
+Two warm-ups preceded 17 measured requests. Each request produced 512 output tokens.
 Decode speed is `(output_tokens-1)/(last_text_time-first_text_time)`.
 
 | Input tokens | Requests | Decode token/s median | TTFT median |
@@ -115,17 +130,19 @@ Decode speed is `(output_tokens-1)/(last_text_time-first_text_time)`.
 | 2220 | 5 | 87.24 | 0.597s |
 | 8840 | 5 | 86.45 | 1.477s |
 
-[Current request-group measurements](qwen-single.json). Before unlock, recent
-same-profile service logs already showed about 87 token/s. Matched single-request
-log bins showed87.28→88.56 (+1.47%) and86.42→87.32 (+1.04%). These are correlated
-log windows with different prompts, not independent paired requests or a
-significance result. Older73–81 token/s records used older stacks/contexts and
-are not a valid unlock-only baseline. Overall C1 speed is approximately flat.
+See [request-group measurements](qwen-single.json).
+Recent same-profile logs before unlock already showed about 87 token/s.
+Matched log bins changed from 87.28 to 88.56 (+1.47%) and from 86.42 to 87.32 (+1.04%).
+These are correlated windows with different prompts. They are not independent paired requests or a significance test.
 
-## Targeted operator findings
+Older 73–81 token/s records used other software stacks or contexts. They are not a valid unlock-only baseline.
+Overall C1 speed stayed approximately unchanged.
 
-Identical BF16 inputs,450 W, GPU0,7 alternating sweeps with 35 event measurements
-per implementation. GPU1 reproduced the direction of the improvement:
+## Targeted MOSS operator tests
+
+The paired test used identical BF16 inputs, GPU0, and 450 W.
+Seven alternating sweeps produced 35 event measurements per implementation.
+GPU1 reproduced the direction of improvement.
 
 | MOSS GEMM (M,N,K) | cuBLAS us | cuBLASLt us | Triton128 us | Triton throughput gain |
 |---|---:|---:|---:|---:|
@@ -134,72 +151,83 @@ per implementation. GPU1 reproduced the direction of the improvement:
 | down (4160, 3072, 8192) | 1172.22 | 1180.53 | 904.18 | +29.64% |
 | dgrad (4160, 3072, 16384) | 2425.98 | 2429.80 | 1929.09 | +25.76% |
 
-The FFN-up Tensor activity counter rose from58.36% to90.59%; a64x64 Triton
-variant was slower, so this is a shape/tile/implementation result, not a generic
-Triton advantage. Closing BF16 reduced-precision reduction changed the ordinary
-cuBLAS QKV/up times by only about0.36%/0.08%. Each paired implementation passed
-16 sampled CPU-FP64 forward-error bounds. The candidate has not replaced a
-production layer or passed full backward/model qualification. Its improvements
-are not unlock gains. `dgrad` reproduces dimensions with continuous synthetic
-weights, not all production transpose strides.
+FFN-up Tensor activity increased from 58.36% to 90.59%.
+A 64×64 Triton variant was slower.
+The result depends on shape, tile, and implementation. It does not establish a general Triton advantage.
 
-A reversible450→300→450 W test increased large MOSS GEMM latency by roughly
-28–35% at300 W; the faster Triton FFN increased about52%. This demonstrates
-power sensitivity without proving what fraction of lost unlock speed is power.
-Real MOSS training power-cap flags were frequent (136/148 and140/148 original-
-offload samples;133/138 and136/138 resident samples). No hardware thermal-
-throttling flag was sampled. SiTU and normalization were insensitive to300 W
-and approached94.0%/82.78% of sustained DRAM throughput in the counter probe.
+Disabling BF16 reduced-precision reduction changed ordinary cuBLAS QKV/up times by only about 0.36%/0.08%.
+Each paired implementation passed 16 sampled CPU-FP64 forward-error bounds.
+The candidate has not replaced a production layer or passed full backward/model qualification.
+These improvements are separate from unlock gains.
 
-Qwen LM-head GEMV measured978.8 GB/s,97.19% sustained DRAM throughput and0%
-Tensor activity. GDN-input GEMV was893.1 GB/s; HC and the two Marlin kernels had
-about5% Tensor activity. B1 workloads have low arithmetic intensity, tiny per-
-expert batches, dequantization and synchronization/launch costs. LM head/HC/
-B1-MoE/GDN-recurrent ordinary event medians changed by under0.4% between300 W
-and restored450 W. GDN-input hot-cache latency did change8.84%, about 1.76%
-after eviction, so this is not a claim that all Qwen kernels ignore power.
-CPU scheduling/TP communication/KV/index costs remain possible full-service
-limits; their current critical-path fractions were not re-profiled here.
+`dgrad` uses continuous synthetic weights with the backward GEMM dimensions. It does not cover all production transpose strides.
 
-Qwen counter collection was corrected from kernel replay to application replay
-with explicit96 MiB eviction. Hardware counters are attribution evidence;
-profiler durations are not substituted for normal event timing or summed into
-whole-model latency. [Individual operator samples and counters](operators.json).
+## Power, memory, and software limits
 
-Nsight produced54 driver `pSmIssueThrottleCtrl != NULL` query assertions only
-during profiling. The595.84 source returns `NV_ERR_NOT_SUPPORTED` in a getter;
-ordinary timing and power-test windows did not have these assertions, and no
-Xid was observed. This is a retained profiler/driver compatibility issue, not
-proven as a cause of daily training/decode slowness. GPU0 also retained a124 MiB
-used-memory reporting difference after profiling while application owners and
-their reported allocations were unchanged; the production service was not
-restarted merely to clear that residual.
+A reversible 450 → 300 → 450 W test increased large MOSS GEMM latency by about 28–35% at 300 W.
+The faster Triton FFN latency increased by about 52%.
+This establishes power sensitivity. It does not quantify power's share of the missing unlock gain.
 
-## Sources, provenance and limits
+Real MOSS offload training showed power-cap flags in 136/148 and 140/148 samples.
+Resident training showed them in 133/138 and 136/138 samples.
+No sampled flag indicated hardware thermal throttling.
+SiTU and normalization were insensitive to 300 W.
 
-- Fork base: [elias-gaeros/gpu-unlock @4ec490d](https://github.com/elias-gaeros/gpu-unlock/tree/4ec490d49c1cc292c0b4cd5ce5a801b5d2c396dc).
-- Original loader: [Zagitta/gpu-unlock](https://github.com/Zagitta/gpu-unlock).
-- Published AD102 payload analysis: [TOTORONG/AD103_win_unlocker](https://huggingface.co/TOTORONG/AD103_win_unlocker). The port does not claim discovery of the chain.
-- Runtime source pins: SGLang `baa9befa381511cd4d56f83980951e5a45fffc6d`, QSA plugin `d9c2339771d9bbafc771ec29f3d471aaeca8a1bf`; MOSS used installed kohakumoss0.1.0.
-- [Nsight profiling guide](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html), [nvidia-smi](https://docs.nvidia.com/deploy/nvidia-smi/), [PyTorch BF16 reduction settings](https://docs.pytorch.org/docs/main/notes/cuda.html).
+Their counter probes reached 94.0% and 82.78% of sustained DRAM throughput.
 
-Public evidence retains numeric samples, counter values, controlled comparisons
-and limited transaction proof. Host/user names, GPU/filesystem UUIDs, management
-network addresses, credentials, private project paths, model weights and whole
-machine logs are excluded. Original local evidence remains unchanged. Source
-publication uses filtered logs and a parameterized persistence template;
-full local initrd images and credential-bearing controllers are not distributed.
+Qwen LM-head GEMV reached 978.8 GB/s, 97.19% sustained DRAM throughput, and 0% Tensor activity.
+GDN-input GEMV reached 893.1 GB/s. HC and both Marlin kernels showed about 5% Tensor activity.
+Batch-1 workloads have low arithmetic intensity, small per-expert batches, dequantization costs, and synchronization/launch costs.
 
+LM head, HC, batch-1 MoE, and GDN-recurrent event medians changed by under 0.4% between 300 W and restored 450 W.
+GDN-input hot-cache latency changed by 8.84%. After eviction, it changed by about 1.76%.
+Thus, these results do not show that every Qwen kernel is insensitive to power.
+
+CPU scheduling, TP communication, KV access, and indexing remain possible service limits.
+This study did not re-profile their current critical-path fractions.
+
+Qwen counter collection changed from kernel replay to application replay with explicit 96 MiB eviction.
+Counters help identify limits. Profiler durations do not replace normal event timings or add up to whole-model latency.
+See [individual operator samples and counters](operators.json).
+
+Nsight produced 54 driver assertions for `pSmIssueThrottleCtrl != NULL`, only during profiling.
+The 595.84 source returns `NV_ERR_NOT_SUPPORTED` in a getter.
+Ordinary timing and power-test windows had no such assertions. No Xid was observed.
+
+This profiler/driver compatibility issue is not a proven cause of routine training or decoding limits.
+After profiling, GPU0 retained a 124 MiB used-memory reporting difference.
+Application owners and their reported allocations stayed unchanged.
+The production service was not restarted to clear the difference.
+
+## Sources, provenance, and limits
+
+- Base: [elias-gaeros/gpu-unlock @4ec490d](https://github.com/elias-gaeros/gpu-unlock/tree/4ec490d49c1cc292c0b4cd5ce5a801b5d2c396dc).
+- Loader: [Zagitta/gpu-unlock](https://github.com/Zagitta/gpu-unlock).
+- AD102 payload analysis: [TOTORONG/AD103_win_unlocker](https://huggingface.co/TOTORONG/AD103_win_unlocker).
+  This port does not claim discovery of the chain.
+- Runtime pins: SGLang `baa9befa381511cd4d56f83980951e5a45fffc6d`; QSA `d9c2339771d9bbafc771ec29f3d471aaeca8a1bf`.
+  MOSS used installed kohakumoss 0.1.0.
+- References: [Nsight guide](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html),
+  [nvidia-smi](https://docs.nvidia.com/deploy/nvidia-smi/), and [PyTorch BF16 reduction settings](https://docs.pytorch.org/docs/main/notes/cuda.html).
+
+Public evidence retains numerical samples, counters, controlled comparisons, and limited transaction proof.
+It excludes host/user names, GPU/filesystem UUIDs, management addresses, credentials, private project paths, model weights, and complete machine logs.
+Original local evidence stays unchanged.
+Publication uses filtered logs and a parameterized persistence template.
+
+It excludes complete local initrd images and controllers that contain credentials.
 
 ## Publication checks
 
-The assembled fork passed 12 host tests with no skips on the measured host,
-including 21 BME fault cases, 42 fake-PCI checks and 19 reminder tests. Both kernel
-modules and the static collector rebuilt for7.0.0-34-generic; the public staging
-wrapper verified the pinned assets and produced an overlay without installation
-or hardware action. BTF generation was skipped because no vmlinux was available;
-the compiler-name warning referenced the same GCC 13.3.0 version. Individual
-MMA medians, all 9 matched MOSS intervals and all 19 Qwen request measurements
-were recomputed from the public data. [Validation receipt](publication-validation.json).
-No new reboot, firmware execution or production-service restart was performed
-for publication; rebuilt artifacts were not substituted for the deployed ones.
+The assembled fork passed 12 host tests with no skips on the measured host.
+These included 21 BME fault cases, 42 fake-PCI checks, and 19 reminder tests.
+Both kernel modules and the static collector rebuilt for `7.0.0-34-generic`.
+The staging wrapper checked pinned assets and produced an overlay without installation or hardware action.
+
+BTF generation was skipped because `vmlinux` was unavailable.
+The compiler-name warning referred to the same GCC 13.3.0 version.
+Checks recomputed individual MMA medians, all nine matched MOSS intervals, and all 19 Qwen request measurements from public data.
+See the [validation receipt](publication-validation.json).
+
+Publication did not reboot, execute firmware, or restart a production service.
+Rebuilt artifacts did not replace deployed artifacts.
