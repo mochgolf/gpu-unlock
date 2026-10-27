@@ -1,0 +1,6 @@
+#!/bin/sh
+# PAM runs this root-owned hook during login; warnings must never deny SSH.
+if ! /usr/local/bin/gpu-unlock-status --notify 2>/dev/null; then
+    printf '\n[GPU-UNLOCK WARNING] 解锁状态检查程序无法运行，请执行 gpu-unlock-status 检查。\n'
+fi
+exit 0

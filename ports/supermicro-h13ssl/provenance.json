@@ -1,0 +1,40 @@
+{
+  "ports/supermicro-h13ssl/gpu_bme_diag.c": {
+    "source_sha256": "bc459658be57fe01ff311ba0aa6ded500f80b0ac7f9d2b99e374f78bcca97c69",
+    "published_sha256": "bc459658be57fe01ff311ba0aa6ded500f80b0ac7f9d2b99e374f78bcca97c69",
+    "change": "none; source used by accepted deployment"
+  },
+  "ports/supermicro-h13ssl/bme_diag_core.h": {
+    "source_sha256": "0643cfb84cbdda5bf9b00fed1a0808f2774cdf42fca13ec714af2c0baa93b8e0",
+    "published_sha256": "0643cfb84cbdda5bf9b00fed1a0808f2774cdf42fca13ec714af2c0baa93b8e0",
+    "change": "none; source used by accepted deployment"
+  },
+  "ports/supermicro-h13ssl/gpu_cold_probe.c": {
+    "source_sha256": "0e9f94a7e5e22140ca52752cc32d0564065414607f0a2bb872902d26b1ac01b4",
+    "published_sha256": "0e9f94a7e5e22140ca52752cc32d0564065414607f0a2bb872902d26b1ac01b4",
+    "change": "none; source used by accepted deployment"
+  },
+  "ports/supermicro-h13ssl/tests/test_bme_diag.c": {
+    "source_sha256": "dfbdbf8f8baf6e6f307b757e693ae17accc43878322dd36947415e6db57973dd",
+    "published_sha256": "dfbdbf8f8baf6e6f307b757e693ae17accc43878322dd36947415e6db57973dd",
+    "change": "none; source used by accepted deployment"
+  },
+  "ports/supermicro-h13ssl/initramfs/experiment_init_top.sh": {
+    "source_sha256": "d5755e8e7ac5b757e98b214294983f7c1ca6fc51a2732209a93f8f47f29f2658",
+    "published_sha256": "d5755e8e7ac5b757e98b214294983f7c1ca6fc51a2732209a93f8f47f29f2658",
+    "change": "none; source used by accepted deployment"
+  },
+  "ports/supermicro-h13ssl/initramfs/verify_unlock_log.sh": {
+    "source_sha256": "c9196a61a5ece0934d42b5c7c5d012bf3b0ed4a3a4f076c60f28434a090e0d47",
+    "published_sha256": "c9196a61a5ece0934d42b5c7c5d012bf3b0ed4a3a4f076c60f28434a090e0d47",
+    "change": "none; source used by accepted deployment"
+  },
+  "ports/supermicro-h13ssl/initramfs/persist_early.sh.in": {
+    "source_sha256": "958f3bfc95db7b25cbd131202bca10739fdf4cc31078e53932fb96004fc7efee",
+    "published_sha256": "4f2bc45f7aa905d9ef4b3e8017f8ad1cd57f06f5e55eba3fab86d8ecaa73e52b",
+    "change": "root device and filesystem UUID replaced by required render-time placeholders; no private partition identifier published"
+  },
+  "kernel/gpu_unlock": {
+    "change": "unchanged from upstream 4ec490d49c1cc292c0b4cd5ce5a801b5d2c396dc; the offline-only hardened-BME module is deliberately not substituted for the accepted module"
+  }
+}

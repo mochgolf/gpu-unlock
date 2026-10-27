@@ -16,3 +16,16 @@
 *.cu export-ignore
 /diagnostics/bench/mma_bench.cu -export-ignore
 /debian -export-ignore
+
+/ports -export-ignore
+/benchmarks -export-ignore
+/monitoring -export-ignore
+*.py text eol=lf
+*.sh text eol=lf
+*.in text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+
+/diagnostics/bench/gemm_check.cu -export-ignore
+/diagnostics/bench/memory_peer_check.cu -export-ignore
+/diagnostics/bench/stability_gemm.cu -export-ignore

@@ -1,0 +1,11 @@
+[    4.312768] pci 0000:41:00.0: driver probe resources: phase=entry empty=1
+[    4.734362] pci 0000:41:00.0: FWSEC result: scratch=0x0 expected_hi16=0
+[    4.734673] pci 0000:41:00.0: FWSEC WPR2: low=0xbff2000 high=0xbff2e00 expected_page=0xbff200 end=0xbff300000
+[    4.859185] pci 0000:41:00.0: AD102 payload result: boot=0 halt=0 marker=0x67b00001 expected=0x67b00001 marker_ok=1 required_permissions=1 cpuctl=0x10 halted=1 debug=0xda550000 ss0=0x3061034 ss1=0x3
+[    4.861839] pci 0000:41:00.0: PCIe FLR begin: BME=0 DMA retained, chip=0x192000a1
+[    4.967073] pci 0000:41:00.0: PCIe FLR returned: result=0
+[    5.347958] pci 0000:41:00.0: post-FLR GFW result: error=0 pci=0x268410de plm=0x8b8f boot=0x3ff cpuctl=0x10 budget_us=2050000
+[    5.355557] pci 0000:41:00.0: post-FLR SEC2 reset released, GSP halted, BME=0 pending=0 WPR2=1ffffe00:00000000 SS0=88888888 SS1=00000008
+[    5.365591] pci 0000:41:00.0: AD102 post-FLR: readout1=0x0 fields=0 0 0 0 0 0 0 0 0 valid=1 full=1
+[    5.406225] pci 0000:41:00.0: driver probe resources: phase=handoff empty=1
+[    5.407265] pci 0000:41:00.0: gpu_unlock: unlocked

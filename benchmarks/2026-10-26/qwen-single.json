@@ -1,0 +1,44 @@
+{
+  "tp_size": 2,
+  "concurrency": 1,
+  "warmup_requests": 2,
+  "measured_requests": 17,
+  "output_tokens_per_request": 512,
+  "input_cache_hits": 0,
+  "groups": {
+    "short": {
+      "n": 7,
+      "prompt_tokens_min": 113,
+      "prompt_tokens_max": 113,
+      "decode_tps_median": 88.51067143876018,
+      "decode_tps_min": 88.1412451869922,
+      "decode_tps_max": 88.53523581155636,
+      "ttft_s_median": 0.31192008899961365,
+      "end_to_end_s_median": 6.086192560999734,
+      "end_to_end_tps_median": 84.12484404139482
+    },
+    "medium": {
+      "n": 5,
+      "prompt_tokens_min": 2220,
+      "prompt_tokens_max": 2220,
+      "decode_tps_median": 87.23636980828314,
+      "decode_tps_min": 87.19786807703889,
+      "decode_tps_max": 87.33060375121633,
+      "ttft_s_median": 0.5968110119993071,
+      "end_to_end_s_median": 6.455920800999593,
+      "end_to_end_tps_median": 79.30704477055005
+    },
+    "long": {
+      "n": 5,
+      "prompt_tokens_min": 8840,
+      "prompt_tokens_max": 8840,
+      "decode_tps_median": 86.44806145662866,
+      "decode_tps_min": 86.34590654203556,
+      "decode_tps_max": 86.7164527769748,
+      "ttft_s_median": 1.4765428499995323,
+      "end_to_end_s_median": 7.389085632999922,
+      "end_to_end_tps_median": 69.29138805935467
+    }
+  },
+  "scope": "current unlocked service absolute speed; not an unlock A/B gain"
+}

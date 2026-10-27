@@ -1,0 +1,1 @@
+The golden log is a filtered single-card transaction from the accepted local run. Only proof lines needed by verify_unlock_log.sh are retained. The second device in CPU fixtures is a synthetic copy; native dual-card acceptance is documented separately in benchmarks/2026-10-26/README.md.

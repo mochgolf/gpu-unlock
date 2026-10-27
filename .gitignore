@@ -24,3 +24,13 @@
 /debian/gpu-unlock-*/
 modules.order
 Module.symvers
+
+# Machine-local deployment data is never part of this public fork.
+*.local.json
+*-credential.xml
+controller.json
+recovery-manifest*.json
+*.ncu-rep
+*.safetensors
+*.key
+*.pem

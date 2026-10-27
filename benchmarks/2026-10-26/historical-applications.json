@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "causal_unlock_AB": false,
+  "moss_training": {
+    "matched_steps": [
+      51,
+      140
+    ],
+    "steps": 90,
+    "samples": 237,
+    "tokens": 948960,
+    "historical": {
+      "seconds": 344.5823592906818,
+      "tokens_per_second": 2753.9424884
+    },
+    "current_same_offload": {
+      "seconds": 310.33576716200093,
+      "tokens_per_second": 3057.849273
+    },
+    "current_resident": {
+      "seconds": 293.5275965659996,
+      "tokens_per_second": 3232.9498524
+    },
+    "confounders": [
+      "new explicit NUMA binding",
+      "logging interval 10 vs 1",
+      "different boot/date",
+      "resident is an additional memory policy change"
+    ]
+  },
+  "moss_image_generation": {
+    "historical_n": 32,
+    "current_n_each_gpu": 4,
+    "historical_seconds_per_image": 42.90420113,
+    "current_seconds_per_image": [
+      38.130080805,
+      38.661276525
+    ],
+    "historical_profile": "balanced",
+    "current_profile": "speed",
+    "other_differences": [
+      "prompts",
+      "text token lengths",
+      "NUMA binding",
+      "run state"
+    ]
+  },
+  "qwen_comparable_service_log_bins": {
+    "short": {
+      "old_log_windows": 31,
+      "new_log_windows": 106,
+      "old_median_tps": 87.28,
+      "new_median_tps": 88.56
+    },
+    "medium": {
+      "old_log_windows": 1356,
+      "new_log_windows": 58,
+      "old_median_tps": 86.42,
+      "new_median_tps": 87.32
+    },
+    "scope": "same saved service profile; different prompts, correlated log windows; not paired requests or a significance test"
+  }
+}

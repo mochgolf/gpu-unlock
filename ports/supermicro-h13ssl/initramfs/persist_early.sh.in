@@ -1,0 +1,46 @@
+#!/bin/sh
+# Runs before udev; only the pinned root partition may receive early evidence.
+set -eu
+event=${1:-}
+case "$event" in pre|normalized|b-begin|b-return|handoff|failure) ;; *) exit 2;; esac
+out=/run/initramfs/gpu-ab
+point=/gpu-ab/persist-root
+device=@ROOT_DEVICE@
+uuid=@ROOT_UUID@
+boot=$(cat "$out/boot_id")
+case "$boot" in *[!a-f0-9-]*|'') exit 2;; esac
+mounted=0
+cleanup() { if [ "$mounted" = 1 ]; then sync; umount "$point"; fi; }
+trap cleanup EXIT
+modprobe nvme
+modprobe ext4
+waited=0
+while [ ! -b "$device" ] && [ "$waited" -lt 20 ]; do sleep 1; waited=$((waited+1)); done
+[ -b "$device" ]
+[ "$(blkid -s UUID -o value "$device")" = "$uuid" ]
+[ ! -L "$point" ]
+mkdir -p "$point"
+mount -t ext4 -o rw,nodev,nosuid "$device" "$point"
+mounted=1
+parent="$point/var/backups/gpu-unlock-ab-events"
+[ -d "$parent" ] && [ ! -L "$parent" ]
+[ "$(stat -c '%u:%a' "$parent")" = 0:700 ]
+dest="$parent/$boot-$event"
+[ ! -e "$dest" ] && [ ! -L "$dest" ]
+mkdir -m 0700 "$dest"
+cp -a "$out/." "$dest/"
+dmesg > "$dest/kernel.log"
+cat /proc/cmdline > "$dest/cmdline"
+echo "$event" > "$dest/event"
+( cd "$dest"
+  for file in ./*; do
+    case "$file" in ./SHA256SUMS|./SHA256SUMS.tmp) continue;; esac
+    [ -f "$file" ]
+    /gpu-ab/sha256sum "$file"
+  done > SHA256SUMS.tmp
+  mv SHA256SUMS.tmp SHA256SUMS
+)
+sync
+umount "$point"
+mounted=0
+echo "<6>GPU-AB PERSISTED: $boot-$event" > /dev/kmsg

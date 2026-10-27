@@ -1,0 +1,26 @@
+{
+  "hostname": "REPLACE_WITH_HOSTNAME",
+  "kernel": "7.0.0-34-generic",
+  "nvidia_version": "595.84",
+  "nvidia_srcversion": "BD93149643E0EFF4668B61C",
+  "gpu_unlock_srcversion": "173659B70218B6387AECC0D",
+  "revision": "dual-v1",
+  "cmdline_token": "gpu_deploy.revision=dual-v1",
+  "gpus": {
+    "0000:01:00.0": "GPU-REPLACE-0",
+    "0000:41:00.0": "GPU-REPLACE-1"
+  },
+  "default_entry": "gpu-unlock-production-dual-34-v1",
+  "receipt_root": "/var/backups/gpu-unlock-ab-events",
+  "registers": {
+    "feat_plm": 4294967295,
+    "ss0": 2290649224,
+    "ss1": 8,
+    "readout1": 0
+  },
+  "journal_marker": "GPU-DEPLOY VERIFIED: revision=dual-v1 targets=0000:41:00.0,0000:01:00.0; original udev handoff",
+  "boot_file_hashes": {
+    "/boot/initrd.img-7.0.0-34-generic-gpu-unlock-dual-v1": "REPLACE_WITH_SHA256",
+    "/etc/grub.d/10_gpu_unlock_production": "REPLACE_WITH_SHA256"
+  }
+}

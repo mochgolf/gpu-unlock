@@ -1,0 +1,23 @@
+[Unit]
+Description=Read-only GPU unlock boot verification and warning
+After=local-fs.target systemd-modules-load.service systemd-udev-trigger.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/gpu-unlock-status --boot
+TimeoutStartSec=16
+RemainAfterExit=yes
+StandardOutput=journal+console
+StandardError=journal+console
+SyslogIdentifier=gpu-unlock-watch
+UMask=0022
+NoNewPrivileges=yes
+ProtectHome=yes
+ProtectSystem=strict
+ReadWritePaths=/run/gpu-unlock-watch
+RuntimeDirectory=gpu-unlock-watch
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+
+[Install]
+WantedBy=multi-user.target
