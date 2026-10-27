@@ -31,5 +31,6 @@ class SupermicroPortTests(unittest.TestCase):
             self.skipTest('Generated pinned firmware is needed for the 42 fake-PCI checks')
         with tempfile.TemporaryDirectory() as directory:
             r = subprocess.run([sys.executable, str(PORT / 'tests/test_dual.py'), directory, str(assets)],
-                               check=True, capture_output=True, text=True)
+                               capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-4000:])
             self.assertEqual(json.loads(r.stdout), {'checks': 42, 'pass': True})

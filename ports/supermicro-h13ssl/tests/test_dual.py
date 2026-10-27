@@ -17,7 +17,11 @@ fake=stage/'fake-pci';fake.mkdir();assets=Path(sys.argv[2]).resolve();checks=[]
 def run(a):return subprocess.run([str(x) for x in a],capture_output=True,text=True,timeout=60)
 def record(n):checks.append(n)
 exe=stage/'fixture-probe'
-p=run(['gcc','-O2','-Wall','-Wextra','-Werror','-static','-I',src,'-DPCI_SYSFS_ROOT="'+str(fake)+'"','-DPROBE_ASSETS="'+str(assets)+'"',*[src/x for x in ['gpu_cold_probe.c','prep_610.c','layout_610.c','vbios_610.c','gfw_eval.c']],'-o',exe]);assert p.returncode==0,p.stderr
+# The production sampler intentionally requires root. Only this private fake-PCI
+# executable wraps geteuid; the published sampler and its privilege guard stay
+# byte-for-byte unchanged, and PCI_SYSFS_ROOT is still this temporary fixture.
+uid_shim=src/'fixture_uid.c';uid_shim.write_text('#include <sys/types.h>\nuid_t __wrap_geteuid(void){return 0;}\n')
+p=run(['gcc','-O2','-Wall','-Wextra','-Werror','-static','-I',src,'-DPCI_SYSFS_ROOT="'+str(fake)+'"','-DPROBE_ASSETS="'+str(assets)+'"',*[src/x for x in ['gpu_cold_probe.c','prep_610.c','layout_610.c','vbios_610.c','gfw_eval.c']],uid_shim,'-Wl,--wrap=geteuid','-o',exe]);assert p.returncode==0,p.stderr
 gen=src/'fixture_gen.c';gen.write_text('#include <stdint.h>\n#include <stdio.h>\n#include <string.h>\ntypedef uint8_t u8;typedef uint32_t u32;\n#include "vbios_fixture.h"\nint main(void){u8 rom[4096];vbios_fixture(rom,6);return fwrite(rom,1,sizeof(rom),stdout)!=sizeof(rom);}\n')
 p=run(['gcc','-O2',gen,'-o',stage/'fixture-gen']);assert p.returncode==0,p.stderr
 rom=bytearray(subprocess.check_output([str(stage/'fixture-gen')]));struct.pack_into('<H',rom,292,0x400)
@@ -38,7 +42,7 @@ def reg(bdf,off,v):
 out=stage/'fixture-cold';out.mkdir()
 def probe(mode='--post-unlock'):
  before={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in fake.rglob('*') if p.is_file()}
- p=run([exe,mode,out]);r=json.loads(p.stdout)
+ p=run([exe,mode,out]);assert p.stdout,(p.returncode,p.stderr);r=json.loads(p.stdout)
  assert before=={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in fake.rglob('*') if p.is_file()},'probe wrote PCI inputs'
  return p.returncode,r
 rc,r=probe('--cold-candidate');assert rc==0 and r['policy_pass'] and [d['mask'] for d in r['devices']]==[8,8];record('cold-BME7-both-recorded')
