@@ -8,12 +8,12 @@ kernel comparison is a separate software result, not unlock speedup.
 
 ## Configuration and method
 
-Supermicro H13SSL-N, BIOS3.5; two modified 48GiB AD102 RTX4090 (`10de:2684`,
-49,140MiB each), ASPEED console, four NUMA nodes. Kernel7.0.0-34-generic,
-locally patched nvidia-open-p2p/595.84 with 48GiB and P2P support, 450W/card.
-This is not a stock-driver or stock-24GiB-board qualification. MMA was compiled
-with nvcc12.8.93, `-O3 -arch=sm_89`; PyTorch operator work used2.14.1/cu130 and
-Triton3.8.0. No overclock or higher-than-default power limit was used.
+Supermicro H13SSL-N, BIOS 3.5; two modified 48 GiB AD102 RTX4090 (`10de:2684`,
+49,140 MiB each), ASPEED console, four NUMA nodes. Kernel7.0.0-34-generic,
+locally patched nvidia-open-p2p/595.84 with 48 GiB and P2P support, 450 W/card.
+This is not a stock-driver or stock-24 GiB-board qualification. MMA was compiled
+with nvcc12.8.93, `-O3 -arch=sm_89`; PyTorch operator work used 2.14.1/cu130 and
+Triton 3.8.0. No overclock or higher-than-default power limit was used.
 
 The port did not change the upstream AD102 payload or unlock module. It added
 separate pre-driver BME normalization and a verified pre-udev dual-card boot
@@ -37,7 +37,7 @@ libraries were pinned. This is one-machine evidence, not fleet qualification.
 | dp4a (TOP/s) | 163.10 | 163.15 | 163.20 | 1.0003x |
 | ffma (TFLOP/s) | 78.40 | 78.40 | 78.60 | 1.0000x |
 
-The locked control card's BF16 result stayed at about162.9TFLOP/s across all
+The locked control card's BF16 result stayed at about 162.9 TFLOP/s across all
 three arms. Scalar FP32 and integer controls did not show a corresponding2x
 increase. [All individual samples and control-normalized comparisons](ab-a-matched.json).
 
@@ -52,15 +52,15 @@ increase. [All individual samples and control-normalized comparisons](ab-a-match
 | fp16 / 8192-8192-8192 | 160.67 | 181.70 | 160.76 | 1.1309x |
 | fp16 / 256-512-16384 | 119.52 | 110.38 | 110.38 | 0.9235x |
 
-BF16 4096-cubed barely changed;8192-cubed improved about18.8%. The small FP16
+BF16 4096-cubed barely changed;8192-cubed improved about 18.8%. The small FP16
 case changed between locked A1 and locked A2 too, so its first-baseline drop is
 not a clean unlock effect. Do not generalize peak MMA improvement to arbitrary
 library kernels. All retained full-output GEMM comparisons in this supplement
 were bitwise equal, with finite checks and independent sampled error budgets.
 This does not prove all future models or inputs are numerically identical.
 
-Primary A1/B1/A2 each passed59 configured cases, including approximately30min
-of stability work per arm. The original A0 legacy28GiB P2P mapping failure was
+Primary A1/B1/A2 each passed 59 configured cases, including approximately30 min
+of stability work per arm. The original A0 legacy28 GiB P2P mapping failure was
 retained; it was not erased by the later VMM P2P success. This custom driver
 needs its proven VMM path for the accepted large-memory workload.
 
@@ -74,12 +74,12 @@ predicates and completed a full unlock. The alternative pre-action stock-driver
 fallback is only chroot-tested for a non-cold failure; any post-action failure
 still stops. It must not be advertised as universally fail-safe warm-boot support.
 
-Final native acceptance included33 cases: numerical checks,28GiB allocation in
-two memory modes, bidirectional1MiB VMM P2P and MMA checks. Four independent
-single-GPU MOSS jobs completed800 optimizer steps with zero nonfinite steps;
+Final native acceptance included 33 cases: numerical checks,28 GiB allocation in
+two memory modes, bidirectional1 MiB VMM P2P and MMA checks. Four independent
+single-GPU MOSS jobs completed 800 optimizer steps with zero nonfinite steps;
 8 inference images were generated, with4 cross-GPU output pairs identical.
 These are system-load and numerical checks, not a new model-quality result.
-Qwen sustained service load completed460 requests with zero observed errors.
+Qwen sustained service load completed 460 requests with zero observed errors.
 That mixed-workload205.96output-token/s result had about79.8% input-cache hits;
 it is not comparable to a steady decode-only batch-throughput number.
 
@@ -87,7 +87,7 @@ it is not comparable to a steady decode-only batch-throughput number.
 
 Use total tokens/total interval time, not historical10-step logging medians vs
 current1-step medians. Steps51–140 match exactly:90 steps,237 samples,
-948,960tokens, same A data/cache/model/BF16/rank16/seed and original offload
+948,960 tokens, same A data/cache/model/BF16/rank16/seed and original offload
 policy, excluding warm-up/save/validation. All9 paired10-step windows improved.
 
 | Training policy | Historical token/s | Current token/s | Throughput change |
@@ -116,15 +116,15 @@ Decode speed is `(output_tokens-1)/(last_text_time-first_text_time)`.
 | 8840 | 5 | 86.45 | 1.477s |
 
 [Current request-group measurements](qwen-single.json). Before unlock, recent
-same-profile service logs already showed about87token/s. Matched single-request
+same-profile service logs already showed about 87 token/s. Matched single-request
 log bins showed87.28→88.56 (+1.47%) and86.42→87.32 (+1.04%). These are correlated
 log windows with different prompts, not independent paired requests or a
-significance result. Older73–81token/s records used older stacks/contexts and
+significance result. Older73–81 token/s records used older stacks/contexts and
 are not a valid unlock-only baseline. Overall C1 speed is approximately flat.
 
 ## Targeted operator findings
 
-Identical BF16 inputs,450W, GPU0,7 alternating sweeps with35 event measurements
+Identical BF16 inputs,450 W, GPU0,7 alternating sweeps with 35 event measurements
 per implementation. GPU1 reproduced the direction of the improvement:
 
 | MOSS GEMM (M,N,K) | cuBLAS us | cuBLASLt us | Triton128 us | Triton throughput gain |
@@ -143,26 +143,26 @@ production layer or passed full backward/model qualification. Its improvements
 are not unlock gains. `dgrad` reproduces dimensions with continuous synthetic
 weights, not all production transpose strides.
 
-A reversible450→300→450W test increased large MOSS GEMM latency by roughly
-28–35% at300W; the faster Triton FFN increased about52%. This demonstrates
+A reversible450→300→450 W test increased large MOSS GEMM latency by roughly
+28–35% at300 W; the faster Triton FFN increased about52%. This demonstrates
 power sensitivity without proving what fraction of lost unlock speed is power.
 Real MOSS training power-cap flags were frequent (136/148 and140/148 original-
 offload samples;133/138 and136/138 resident samples). No hardware thermal-
-throttling flag was sampled. SiTU and normalization were insensitive to300W
+throttling flag was sampled. SiTU and normalization were insensitive to300 W
 and approached94.0%/82.78% of sustained DRAM throughput in the counter probe.
 
-Qwen LM-head GEMV measured978.8GB/s,97.19% sustained DRAM throughput and0%
-Tensor activity. GDN-input GEMV was893.1GB/s; HC and the two Marlin kernels had
+Qwen LM-head GEMV measured978.8 GB/s,97.19% sustained DRAM throughput and0%
+Tensor activity. GDN-input GEMV was893.1 GB/s; HC and the two Marlin kernels had
 about5% Tensor activity. B1 workloads have low arithmetic intensity, tiny per-
 expert batches, dequantization and synchronization/launch costs. LM head/HC/
-B1-MoE/GDN-recurrent ordinary event medians changed by under0.4% between300W
-and restored450W. GDN-input hot-cache latency did change8.84%, about1.76%
+B1-MoE/GDN-recurrent ordinary event medians changed by under0.4% between300 W
+and restored450 W. GDN-input hot-cache latency did change8.84%, about 1.76%
 after eviction, so this is not a claim that all Qwen kernels ignore power.
 CPU scheduling/TP communication/KV/index costs remain possible full-service
 limits; their current critical-path fractions were not re-profiled here.
 
 Qwen counter collection was corrected from kernel replay to application replay
-with explicit96MiB eviction. Hardware counters are attribution evidence;
+with explicit96 MiB eviction. Hardware counters are attribution evidence;
 profiler durations are not substituted for normal event timing or summed into
 whole-model latency. [Individual operator samples and counters](operators.json).
 
@@ -170,7 +170,7 @@ Nsight produced54 driver `pSmIssueThrottleCtrl != NULL` query assertions only
 during profiling. The595.84 source returns `NV_ERR_NOT_SUPPORTED` in a getter;
 ordinary timing and power-test windows did not have these assertions, and no
 Xid was observed. This is a retained profiler/driver compatibility issue, not
-proven as a cause of daily training/decode slowness. GPU0 also retained a124MiB
+proven as a cause of daily training/decode slowness. GPU0 also retained a124 MiB
 used-memory reporting difference after profiling while application owners and
 their reported allocations were unchanged; the production service was not
 restarted merely to clear that residual.
@@ -193,13 +193,13 @@ full local initrd images and credential-bearing controllers are not distributed.
 
 ## Publication checks
 
-The assembled fork passed12 host tests with no skips on the measured host,
-including21 BME fault cases,42 fake-PCI checks and19 reminder tests. Both kernel
+The assembled fork passed 12 host tests with no skips on the measured host,
+including 21 BME fault cases, 42 fake-PCI checks and 19 reminder tests. Both kernel
 modules and the static collector rebuilt for7.0.0-34-generic; the public staging
 wrapper verified the pinned assets and produced an overlay without installation
 or hardware action. BTF generation was skipped because no vmlinux was available;
-the compiler-name warning referenced the same GCC13.3.0 version. Individual
-MMA medians, all9 matched MOSS intervals and all19 Qwen request measurements
+the compiler-name warning referenced the same GCC 13.3.0 version. Individual
+MMA medians, all 9 matched MOSS intervals and all 19 Qwen request measurements
 were recomputed from the public data. [Validation receipt](publication-validation.json).
 No new reboot, firmware execution or production-service restart was performed
 for publication; rebuilt artifacts were not substituted for the deployed ones.

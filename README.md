@@ -1,23 +1,23 @@
 # mochgolf: measured Supermicro dual-RTX4090 adaptation
 
 This fork preserves the upstream AD102 unlock module and payload, and adds the
-**locally accepted H13SSL-N / dual48GiB AD102 port**, independent pre-driver BME
+**locally accepted H13SSL-N / dual 48 GiB AD102 port**, independent pre-driver BME
 normalization, a boot/SSH reminder, and sanitized performance evidence.
 
 - [Hardware port and build/qualification scope](ports/supermicro-h13ssl/README.md)
 - [Boot/SSH reminder](monitoring/README.md)
 - [Benchmarks: controlled A/B/A, MOSS, Qwen and operators](benchmarks/2026-10-26/README.md)
 
-Measured BF16 Tensor/FP32 accumulation: **164.5→325.95→164.5TFLOP/s** in A/B/A
-(about1.98x); BF16 cuBLAS8192³ about18.8% faster,4096³ essentially unchanged.
-MOSS historical same-policy training throughput was about11% higher, with NUMA
+Measured BF16 Tensor/FP32 accumulation: **164.5→325.95→164.5 TFLOP/s** in A/B/A
+(about 1.98x); BF16 cuBLAS8192³ about 18.8% faster,4096³ essentially unchanged.
+MOSS historical same-policy training throughput was about 11% higher, with NUMA
 and logging confounders. Recent same-profile Qwen C1 was approximately flat;
-current decoding was86–89token/s depending on input length. Independent Triton
+current decoding was86–89 token/s depending on input length. Independent Triton
 kernel gains are software comparisons and are not counted as unlock speedup.
 
-Tested configuration: H13SSL-N/BIOS3.5, kernel7.0.0-34-generic, locally patched
-nvidia-open-p2p/595.84, two48GiB cards and450W/card. This does not qualify other
-boards/BIOSes, stock24GiB cards or stock595.84. Read the port scope before using
+Tested configuration: H13SSL-N/BIOS 3.5, kernel 7.0.0-34-generic, locally patched
+nvidia-open-p2p/595.84, two 48 GiB cards and450 W/card. This does not qualify other
+boards/BIOSes, stock 24 GiB cards or stock595.84. Read the port scope before using
 its pinned diagnostics; the public wrapper stages files and does not install or
 activate a boot image. Existing upstream install targets remain upstream targets.
 
