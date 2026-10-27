@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "code_commit_verified": "4ca854e8dfc4a644a5e05594ab166afce180f179",
+  "host_suite": {
+    "tests_passed": 12,
+    "tests_skipped": 0,
+    "bme_mock_cases": 21,
+    "fake_PCI_checks": 42,
+    "reminder_tests": 19
+  },
+  "build": {
+    "kernel": "7.0.0-34-generic",
+    "original_unlock_module": "passed",
+    "separate_bme_module": "passed",
+    "static_readonly_collector": "passed",
+    "public_overlay_staging": "passed",
+    "notes": [
+      "BTF generation skipped because vmlinux was unavailable",
+      "Kernel compiler and build compiler both GCC13.3.0; executable-name warning retained"
+    ]
+  },
+  "public_measurement_consistency": {
+    "MMA_30_sample_medians": "verified",
+    "MOSS_9_intervals_90steps_948960tokens": "verified",
+    "Qwen_2warmup_17measured_512outputtokens": "verified"
+  },
+  "publication_actions": {
+    "new_native_boots": 0,
+    "new_GPU_workloads": 0,
+    "driver_or_boot_installations": 0
+  },
+  "scope": "Source publication validation; native hardware acceptance is the prior measured campaign, not a new live qualification of rebuilt artifacts."
+}

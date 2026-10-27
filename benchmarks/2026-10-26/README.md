@@ -189,3 +189,17 @@ network addresses, credentials, private project paths, model weights and whole
 machine logs are excluded. Original local evidence remains unchanged. Source
 publication uses filtered logs and a parameterized persistence template;
 full local initrd images and credential-bearing controllers are not distributed.
+
+
+## Publication checks
+
+The assembled fork passed12 host tests with no skips on the measured host,
+including21 BME fault cases,42 fake-PCI checks and19 reminder tests. Both kernel
+modules and the static collector rebuilt for7.0.0-34-generic; the public staging
+wrapper verified the pinned assets and produced an overlay without installation
+or hardware action. BTF generation was skipped because no vmlinux was available;
+the compiler-name warning referenced the same GCC13.3.0 version. Individual
+MMA medians, all9 matched MOSS intervals and all19 Qwen request measurements
+were recomputed from the public data. [Validation receipt](publication-validation.json).
+No new reboot, firmware execution or production-service restart was performed
+for publication; rebuilt artifacts were not substituted for the deployed ones.

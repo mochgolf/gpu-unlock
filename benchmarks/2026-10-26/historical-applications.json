@@ -26,6 +26,89 @@
       "logging interval 10 vs 1",
       "different boot/date",
       "resident is an additional memory policy change"
+    ],
+    "paired_10_step_windows": [
+      {
+        "end_step": 60,
+        "steps": 10,
+        "tokens": 87311,
+        "samples": 22,
+        "old_seconds": 32.10853978781961,
+        "current_seconds": 29.05674582999984,
+        "resident_seconds": 27.084793890000356
+      },
+      {
+        "end_step": 70,
+        "steps": 10,
+        "tokens": 100756,
+        "samples": 25,
+        "old_seconds": 36.5181806338951,
+        "current_seconds": 32.94594132900011,
+        "resident_seconds": 31.22740576299998
+      },
+      {
+        "end_step": 80,
+        "steps": 10,
+        "tokens": 114421,
+        "samples": 29,
+        "old_seconds": 41.488657569047064,
+        "current_seconds": 37.15086619500005,
+        "resident_seconds": 35.22305612599962
+      },
+      {
+        "end_step": 90,
+        "steps": 10,
+        "tokens": 121752,
+        "samples": 30,
+        "old_seconds": 44.022573922993615,
+        "current_seconds": 39.531911151000145,
+        "resident_seconds": 37.65762766399962
+      },
+      {
+        "end_step": 100,
+        "steps": 10,
+        "tokens": 113550,
+        "samples": 28,
+        "old_seconds": 41.10459867678583,
+        "current_seconds": 36.793548988000225,
+        "resident_seconds": 35.14532737000013
+      },
+      {
+        "end_step": 110,
+        "steps": 10,
+        "tokens": 102177,
+        "samples": 26,
+        "old_seconds": 37.05633290903643,
+        "current_seconds": 33.51952639600029,
+        "resident_seconds": 31.468438436999577
+      },
+      {
+        "end_step": 120,
+        "steps": 10,
+        "tokens": 100092,
+        "samples": 25,
+        "old_seconds": 36.28323235712014,
+        "current_seconds": 32.85459654100009,
+        "resident_seconds": 31.033399174999886
+      },
+      {
+        "end_step": 130,
+        "steps": 10,
+        "tokens": 99214,
+        "samples": 25,
+        "old_seconds": 36.34188754297793,
+        "current_seconds": 32.812341805000415,
+        "resident_seconds": 30.7261481070002
+      },
+      {
+        "end_step": 140,
+        "steps": 10,
+        "tokens": 109687,
+        "samples": 27,
+        "old_seconds": 39.65835589100607,
+        "current_seconds": 35.670288926999774,
+        "resident_seconds": 33.961400034000235
+      }
     ]
   },
   "moss_image_generation": {
