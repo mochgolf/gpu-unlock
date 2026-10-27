@@ -30,16 +30,6 @@ Read the hardware port before you use its pinned diagnostics.
 The public wrapper only stages files. It does not install or activate a boot image.
 The root install targets below use the upstream packaging path.
 
-## Document style
-
-The English documents use an approximately 80% ASD-STE100-inspired style.
-This is a style target, not a measured compliance score or a claim of full conformity.
-The rewrite uses short sentences, direct instructions, and consistent terms.
-It keeps technical names, commands, register values, and evidence limits.
-
-See the [official ASD-STE100 specification](https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf).
-Each technical document has a corresponding Chinese version. License notices retain their original text.
-
 ## Separate upstream result: GPU unlock 1.0.0
 
 The upstream module applies the SM speed-select override before the stock NVIDIA driver starts.
