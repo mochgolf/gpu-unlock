@@ -12,6 +12,7 @@
 | [开机/SSH 提醒](monitoring/README.zh-CN.md) | 状态检查和提醒配置 |
 | [本地基准报告](benchmarks/2026-10-26/README.zh-CN.md) | 受控 A/B/A、MOSS、Qwen 和算子测试 |
 | [FP8 补充测试](benchmarks/2026-10-29/README.zh-CN.md) | 原生 FP8 指令测量和原版规格参考 |
+| [性能图册](benchmarks/charts/README.zh-CN.md) | 指令、项目形状算子和 MOSS/Qwen 服务对比 |
 | [算子探针](benchmarks/operators/README.zh-CN.md) | 合成负载工具和测量限制 |
 | [RTX 4090 历史报告](rtx4090-register-report.zh-CN.md) | 独立的上游单卡实验 |
 

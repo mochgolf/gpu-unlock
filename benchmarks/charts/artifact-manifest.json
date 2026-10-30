@@ -1,0 +1,39 @@
+{
+  "artifacts": [
+    "output/zh-CN/01-overview.png",
+    "output/zh-CN/01-overview.svg",
+    "output/zh-CN/02-fp8.png",
+    "output/zh-CN/02-fp8.svg",
+    "output/zh-CN/03-moss-kernels.png",
+    "output/zh-CN/03-moss-kernels.svg",
+    "output/zh-CN/04-power-sensitivity.png",
+    "output/zh-CN/04-power-sensitivity.svg",
+    "output/zh-CN/05-moss-service.png",
+    "output/zh-CN/05-moss-service.svg",
+    "output/zh-CN/06-qwen-service.png",
+    "output/zh-CN/06-qwen-service.svg",
+    "output/pdf/benchmark-production-comparison-zh-CN.pdf",
+    "output/en/01-overview.png",
+    "output/en/01-overview.svg",
+    "output/en/02-fp8.png",
+    "output/en/02-fp8.svg",
+    "output/en/03-moss-kernels.png",
+    "output/en/03-moss-kernels.svg",
+    "output/en/04-power-sensitivity.png",
+    "output/en/04-power-sensitivity.svg",
+    "output/en/05-moss-service.png",
+    "output/en/05-moss-service.svg",
+    "output/en/06-qwen-service.png",
+    "output/en/06-qwen-service.svg",
+    "output/pdf/benchmark-production-comparison-en.pdf"
+  ],
+  "source_sha256": {
+    "benchmarks/2026-10-26/ab-a-matched.json": "bab19409bf5959e227784224d4172b2c905794abc502fb13d96a8e010eb73277",
+    "benchmarks/2026-10-29/results.json": "51ef3029d607d3c1b7509233ec5bbc86a43991d18a501f62012893545e7acd75",
+    "benchmarks/2026-10-26/operators.json": "7e58d0ca4a82c2856d7b6567bb780d188054c96e537298d9b00cb2b62a943a71",
+    "benchmarks/2026-10-26/historical-applications.json": "1c755aaaf517f6c334520927c65285c16fcd247e6118631050e5786098f49951",
+    "benchmarks/2026-10-26/qwen-single.json": "dffaa1523b4ea88c0b308cd2529aa77cbb6cb8af64deb351b590a591d0cb9a2b",
+    "benchmarks/charts/deployment-summary.json": "f3958390c12a93537a0f4c90a72973c481aa5c4e1214bbd161a5c8431da9a884"
+  },
+  "csv_rows": 128
+}

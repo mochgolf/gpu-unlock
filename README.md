@@ -12,6 +12,7 @@ The port adds a separate Bus Master Enable (BME) diagnostic, a pre-udev boot seq
 | [Boot/SSH reminder](monitoring/README.md) | Status checks and warning setup |
 | [Local benchmark report](benchmarks/2026-10-26/README.md) | Controlled A/B/A results, MOSS, Qwen, and operator tests |
 | [FP8 follow-up](benchmarks/2026-10-29/README.md) | Native FP8 instruction measurements and stock specification reference |
+| [Performance charts](benchmarks/charts/README.md) | Instructions, project-shaped kernels, and MOSS/Qwen service comparisons |
 | [Operator probes](benchmarks/operators/README.md) | Synthetic workload tools and measurement limits |
 | [Historical RTX 4090 report](rtx4090-register-report.md) | The separate upstream single-card experiment |
 

@@ -1,0 +1,129 @@
+﻿chart,metric,variant,value,unit,comparison_kind,n,source
+02-fp8,e4m3/f32,spec,330.3,dense TFLOP/s,network_spec,,2026-10-29/results.json
+02-fp8,e5m2/f32,spec,330.3,dense TFLOP/s,network_spec,,2026-10-29/results.json
+02-fp8,e4m3/f16,spec,660.6,dense TFLOP/s,network_spec,,2026-10-29/results.json
+02-fp8,e5m2/f16,spec,660.6,dense TFLOP/s,network_spec,,2026-10-29/results.json
+02-fp8,e4m3/f32,gpu0,648.747204,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e5m2/f32,gpu0,648.669352,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e4m3/f16,gpu0,649.497322,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e5m2/f16,gpu0,649.515561,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e4m3/f32,gpu1,656.300924,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e5m2/f32,gpu1,656.283489,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e4m3/f16,gpu1,657.008761,dense TFLOP/s,current_native,21,2026-10-29/results.json
+02-fp8,e5m2/f16,gpu1,657.027425,dense TFLOP/s,current_native,21,2026-10-29/results.json
+03-moss-kernels,qkv,GPU0/cublas,0.4259839951992035,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,up,GPU0/cublas,2.284032106399536,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,down,GPU0/cublas,1.1722240447998047,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,dgrad,GPU0/cublas,2.4259839057922363,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,qkv,GPU0/cublaslt,0.36838001012802124,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,up,GPU0/cublaslt,2.318336009979248,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,down,GPU0/cublaslt,1.1805280447006226,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,dgrad,GPU0/cublaslt,2.4298040866851807,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,qkv,GPU0/triton128,0.33164799213409424,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,up,GPU0/triton128,1.6874239444732666,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,down,GPU0/triton128,0.9041839838027954,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,dgrad,GPU0/triton128,1.9290879964828491,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,qkv,GPU1/cublas,0.4317440092563629,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,up,GPU1/cublas,2.360447883605957,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,down,GPU1/cublas,1.2076719999313354,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,dgrad,GPU1/cublas,2.446079969406128,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,qkv,GPU1/cublaslt,0.3715839982032776,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,up,GPU1/cublaslt,2.3587839603424072,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,down,GPU1/cublaslt,1.2076799869537354,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,dgrad,GPU1/cublaslt,2.4673280715942383,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,qkv,GPU1/triton128,0.32844799757003784,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,up,GPU1/triton128,1.789952039718628,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,down,GPU1/triton128,1.0086400508880615,ms,independent_implementation,35,2026-10-26/operators.json
+03-moss-kernels,dgrad,GPU1/triton128,2.1502718925476074,ms,independent_implementation,35,2026-10-26/operators.json
+04-power,moss_mm_qkv_default/ordinary,moss,31.13613308869414,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_mm_up_default/ordinary,moss,28.7386848177394,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_mm_down_default/ordinary,moss,34.53260102239955,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_mm_dgrad_default/ordinary,moss,27.82060104868225,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_attention/ordinary,moss,29.443250750960125,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_attention_bwd/ordinary,moss,7.108710665198403,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_situ/ordinary,moss,0.2085793494181809,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_norm/ordinary,moss,0.6067123864450075,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,moss_mm_up_triton_t128/ordinary,moss,51.6631872340576,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,qwen_gemv_lm_head/ordinary,qwen,0.012268373059520776,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,qwen_gemv_gdn_input/ordinary,qwen,8.841393882918403,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,qwen_gemv_gdn_input/evicted,qwen,1.759139528492737,percent latency,power_perturbation,31,2026-10-26/operators.json
+04-power,qwen_hc/ordinary,qwen,0.37861149193862964,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,qwen_moe_b1/ordinary,qwen,0.20568136430094697,percent latency,power_perturbation,21,2026-10-26/operators.json
+04-power,qwen_gdn_recurrent_b1/ordinary,qwen,-0.12578712133171077,percent latency,power_perturbation,21,2026-10-26/operators.json
+05-moss-service,training,0,2753.9424884,token/s,historical_confounded,90,2026-10-26/historical-applications.json
+05-moss-service,training,1,3057.849273,token/s,historical_confounded,90,2026-10-26/historical-applications.json
+05-moss-service,training,2,3232.9498524,token/s,historical_confounded,90,2026-10-26/historical-applications.json
+05-moss-service,image_generation,0,42.90420113,s/image,historical_different_profiles,32,2026-10-26/historical-applications.json
+05-moss-service,image_generation,1,38.130080805,s/image,historical_different_profiles,4,2026-10-26/historical-applications.json
+05-moss-service,image_generation,2,38.661276525,s/image,historical_different_profiles,4,2026-10-26/historical-applications.json
+01-overview,f16/f32,A1,164.6,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,f16/f32,B1,328.9,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,f16/f32,A2,164.6,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,f16/f32,B1/A1,1.9981773997569865,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,f16/f32,A2/A1,1.0,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,bf16/f32,A1,164.5,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,bf16/f32,B1,325.95,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,bf16/f32,A2,164.5,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/f32,B1/A1,1.9814589665653495,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/f32,A2/A1,1.0,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,f16/f16,A1,329.0,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,f16/f16,B1,329.1,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,f16/f16,A2,329.0,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,f16/f16,B1/A1,1.0003039513677812,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,f16/f16,A2/A1,1.0,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,s8/s32,A1,655.8,TOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,s8/s32,B1,655.8,TOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,s8/s32,A2,657.6,TOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,s8/s32,B1/A1,1.0,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,s8/s32,A2/A1,1.0027447392497715,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,dp4a,A1,163.1,TOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,dp4a,B1,163.14999999999998,TOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,dp4a,A2,163.2,TOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,dp4a,B1/A1,1.0003065603923973,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,dp4a,A2/A1,1.0006131207847946,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,ffma,A1,78.4,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,ffma,B1,78.4,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,ffma,A2,78.6,TFLOP/s,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,ffma,B1/A1,1.0,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview-ratio,ffma,A2/A1,1.0025510204081631,ratio,controlled_unlock,30,2026-10-26/ab-a-matched.json
+01-overview,bf16/4096x4096x4096,A1,144.47549189320102,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/4096x4096x4096,B1,144.6116897169224,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/4096x4096x4096,A2,144.39777452059266,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/4096x4096x4096,B1/A1,1.00094270538163,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/4096x4096x4096,A2/A1,0.999462072275443,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/8192x8192x8192,A1,159.74734986242288,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/8192x8192x8192,B1,189.769384806889,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/8192x8192x8192,A2,159.75923691505068,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/8192x8192x8192,B1/A1,1.1879344788525232,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/8192x8192x8192,A2/A1,1.0000744115795226,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/256x512x16384,A1,113.02545879224388,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/256x512x16384,B1,131.58601210592093,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,bf16/256x512x16384,A2,113.26390539087397,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/256x512x16384,B1/A1,1.1642156865542468,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,bf16/256x512x16384,A2/A1,1.0021096715835358,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/4096x4096x4096,A1,152.02616908575345,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/4096x4096x4096,B1,210.20787420779297,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/4096x4096x4096,A2,152.15811883425707,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,fp16/4096x4096x4096,B1/A1,1.3827084867817787,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,fp16/4096x4096x4096,A2/A1,1.0008679410215828,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/8192x8192x8192,A1,160.66764034543624,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/8192x8192x8192,B1,181.69757745523995,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/8192x8192x8192,A2,160.7552111633965,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,fp16/8192x8192x8192,B1/A1,1.130890931519186,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,fp16/8192x8192x8192,A2/A1,1.0005450432817211,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/256x512x16384,A1,119.51712257469299,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/256x512x16384,B1,110.37642595438041,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview,fp16/256x512x16384,A2,110.37642595438041,TFLOP/s,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,fp16/256x512x16384,B1/A1,0.9235197733730576,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+01-overview-ratio,fp16/256x512x16384,A2/A1,0.9235197733730576,ratio,controlled_unlock,10,2026-10-26/ab-a-matched.json
+06-qwen-service,decode_tps_median,short,88.51067143876018,token/s,current_absolute,7,2026-10-26/qwen-single.json
+06-qwen-service,ttft_s_median,short,0.31192008899961365,s,current_absolute,7,2026-10-26/qwen-single.json
+06-qwen-service,decode_tps_median,medium,87.23636980828314,token/s,current_absolute,5,2026-10-26/qwen-single.json
+06-qwen-service,ttft_s_median,medium,0.5968110119993071,s,current_absolute,5,2026-10-26/qwen-single.json
+06-qwen-service,decode_tps_median,long,86.44806145662866,token/s,current_absolute,5,2026-10-26/qwen-single.json
+06-qwen-service,ttft_s_median,long,1.4765428499995323,s,current_absolute,5,2026-10-26/qwen-single.json
+06-qwen-service,decode,short/old,87.28,token/s,historical_confounded,31,2026-10-26/historical-applications.json
+06-qwen-service,decode,short/new,88.56,token/s,historical_confounded,106,2026-10-26/historical-applications.json
+06-qwen-service,decode,medium/old,86.42,token/s,historical_confounded,1356,2026-10-26/historical-applications.json
+06-qwen-service,decode,medium/new,87.32,token/s,historical_confounded,58,2026-10-26/historical-applications.json
+06-qwen-service,mixed_service_total,current,205.95949038520237,output token/s,current_absolute,460,charts/deployment-summary.json
