@@ -1,0 +1,1549 @@
+{
+  "date_local": "2026-10-29",
+  "timezone": "America/Los_Angeles",
+  "started_utc": "2026-10-30T01:41:42.264185+00:00",
+  "finished_utc": "2026-10-30T01:42:25.007819+00:00",
+  "configuration": {
+    "board": "Supermicro H13SSL-N",
+    "bios": "3.5",
+    "kernel": "7.0.0-34-generic",
+    "driver": "custom nvidia-open-p2p/595.84",
+    "gpus": 2,
+    "gpu_model": "modified 48 GiB AD102 RTX 4090",
+    "reported_memory_mib_each": 49140,
+    "power_limit_w_each": 450,
+    "nvcc": "12.8.93",
+    "gpu0_pci": "0000:01:00.0",
+    "gpu1_pci": "0000:41:00.0"
+  },
+  "method": {
+    "dense": true,
+    "ops_per_mac": 2,
+    "blocks": 1056,
+    "threads": 256,
+    "primary_chains": 8,
+    "primary_iters": 20000,
+    "primary_reps_per_mode_per_gpu": 21,
+    "mode_order": "rotate starting mode and reverse order on alternating repetitions",
+    "long_iters": 40000,
+    "other_chains": [
+      4,
+      16
+    ],
+    "clock_measurement": "per-block clock64/globaltimer median; includes barriers",
+    "reference_validation": "all 32 lanes, all chains and all four accumulator values; 1, 2 and 32 iterations; uniform exact nonzero input 2^-6",
+    "sample_dependency": "repetitions are correlated; no significance test"
+  },
+  "network_reference": {
+    "source": "NVIDIA Ada GPU Architecture whitepaper V2.02, Appendix A, printed pages 29-31",
+    "url": "https://images.nvidia.com/aem-dam/Solutions/geforce/ada/nvidia-ada-gpu-architecture.pdf",
+    "accessed_utc_date": "2026-10-30",
+    "boost_clock_mhz": 2520,
+    "fp8_fp32_accum_dense_tflops": 330.3,
+    "fp8_fp16_accum_dense_tflops": 660.6,
+    "kind": "official stock theoretical peak; not a measured local locked arm"
+  },
+  "build": {
+    "source_sha256": "2b90573f093aa152352f889e0e10fce6a3aeb65725578ef3c80a9334bb32f34a",
+    "binary_sha256": "ea6a023c3e57262ddd8c47dfbd943544ad5ca3fea890b1248efdb0942bf779b7"
+  },
+  "sass_audit": {
+    "tensor_opcodes": {
+      "HMMA.16816.F16": 280,
+      "HMMA.16816.F32": 280,
+      "HMMA.16816.F32.BF16": 280,
+      "QMMA.16832.F16.E5M2.E5M2": 280,
+      "QMMA.16832.F16.E4M3.E4M3": 280,
+      "QMMA.16832.F32.E5M2.E5M2": 280,
+      "QMMA.16832.F32.E4M3.E4M3": 280
+    },
+    "all_zero_spills": true,
+    "opcode_examples": [
+      "/*05a0*/                   QMMA.16832.F16.E5M2.E5M2 R30, R20.ROW, R20.COL, R30 ;  /* 0x00000014141e727a */",
+      "/*05c0*/                   QMMA.16832.F16.E5M2.E5M2 R28, R20.ROW, R20.COL, R28 ;  /* 0x00000014141c727a */",
+      "/*05e0*/                   QMMA.16832.F16.E5M2.E5M2 R26, R20.ROW, R20.COL, R26 ;  /* 0x00000014141a727a */",
+      "/*0600*/                   QMMA.16832.F16.E5M2.E5M2 R24, R20.ROW, R20.COL, R24 ;  /* 0x000000141418727a */",
+      "/*0620*/                   QMMA.16832.F16.E5M2.E5M2 R18, R20.ROW, R20.COL, R18 ;  /* 0x000000141412727a */",
+      "/*0640*/                   QMMA.16832.F16.E5M2.E5M2 R16, R20.ROW, R20.COL, R16 ;  /* 0x000000141410727a */",
+      "/*0660*/                   QMMA.16832.F16.E5M2.E5M2 R14, R20.ROW, R20.COL, R14 ;  /* 0x00000014140e727a */",
+      "/*0680*/                   QMMA.16832.F16.E5M2.E5M2 R12, R20.ROW, R20.COL, R12 ;  /* 0x00000014140c727a */"
+    ]
+  },
+  "arms": [
+    {
+      "name": "g0-c8-i20000-r21",
+      "gpu": 0,
+      "chains": 8,
+      "iters": 20000,
+      "reps": 21,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 648.747204,
+            "min": 648.606156,
+            "max": 648.871269
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2709.82801,
+            "min": 2709.33487,
+            "max": 2710.34633
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1870.40874,
+            "min": 1870.04179,
+            "max": 1870.60191
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.998826612493748,
+            "min": 0.9984779420608334,
+            "max": 0.9991000984078181
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9990885474195051,
+            "min": 0.9987377447883474,
+            "max": 0.9994651365093468
+          },
+          "ratio_to_official_330_3_tflops": 1.964115059037239,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.826579003949181
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 648.669352,
+            "min": 648.431128,
+            "max": 648.812892
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2709.62406,
+            "min": 2708.95125,
+            "max": 2710.09274
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1870.25032,
+            "min": 1869.86076,
+            "max": 1870.6072
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9986990658103724,
+            "min": 0.9983078355212529,
+            "max": 0.9988808618005347
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9990521378447803,
+            "min": 0.9987541670378891,
+            "max": 0.9994349396329989
+          },
+          "ratio_to_official_330_3_tflops": 1.963879358159249,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8264242903445491
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 649.497322,
+            "min": 649.325443,
+            "max": 649.718005
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.61315,
+            "min": 2709.77259,
+            "max": 2711.16947
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1872.03887,
+            "min": 1871.46654,
+            "max": 1872.76029
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 649.515561,
+            "min": 649.396116,
+            "max": 649.636285
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.55751,
+            "min": 2709.54105,
+            "max": 2711.11587
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1872.04123,
+            "min": 1871.41067,
+            "max": 1872.76411
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 325.791278,
+            "min": 325.527085,
+            "max": 325.863695
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2709.63829,
+            "min": 2709.12982,
+            "max": 2710.04617
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 939.364763,
+            "min": 938.523829,
+            "max": 939.523458
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 325.817644,
+            "min": 325.752633,
+            "max": 325.883926
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2709.83159,
+            "min": 2709.41258,
+            "max": 2710.23341
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 939.317504,
+            "min": 939.105157,
+            "max": 939.564681
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 325.795557,
+            "min": 325.711548,
+            "max": 325.872255
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.87653,
+            "min": 2710.4786,
+            "max": 2711.33308
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.938929,
+            "min": 938.671105,
+            "max": 939.1526
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 21504
+    },
+    {
+      "name": "g1-c8-i20000-r21",
+      "gpu": 1,
+      "chains": 8,
+      "iters": 20000,
+      "reps": 21,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 656.300924,
+            "min": 656.178971,
+            "max": 656.460333
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2744.52252,
+            "min": 2743.92467,
+            "max": 2744.67642
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1868.23197,
+            "min": 1867.789,
+            "max": 1868.8924
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9989624056519308,
+            "min": 0.9985701879320168,
+            "max": 0.9991349601478361
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9988713619428573,
+            "min": 0.9985818844678561,
+            "max": 0.9993410546401474
+          },
+          "ratio_to_official_330_3_tflops": 1.9869843293975173,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.824453236714024
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 656.283489,
+            "min": 648.310851,
+            "max": 656.472804
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2744.40498,
+            "min": 2743.92961,
+            "max": 2744.63834
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1868.31847,
+            "min": 1845.71726,
+            "max": 1868.93026
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9988676329575115,
+            "min": 0.9868063520065071,
+            "max": 0.9993113477728272
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9988238966790859,
+            "min": 0.9870083915837704,
+            "max": 0.9994455707276019
+          },
+          "ratio_to_official_330_3_tflops": 1.9869315440508628,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8245377117276407
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 657.008761,
+            "min": 656.951364,
+            "max": 657.129759
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2744.50458,
+            "min": 2744.14993,
+            "max": 2744.77653
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1870.34003,
+            "min": 1870.02163,
+            "max": 1870.70795
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 657.027425,
+            "min": 656.916426,
+            "max": 657.16472
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2744.35474,
+            "min": 2743.95287,
+            "max": 2744.77551
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1870.37989,
+            "min": 1869.83273,
+            "max": 1870.87472
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 329.639111,
+            "min": 329.60707,
+            "max": 329.683065
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2743.97774,
+            "min": 2743.72315,
+            "max": 2744.65247
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.533664,
+            "min": 938.227828,
+            "max": 938.740207
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 329.620881,
+            "min": 329.605834,
+            "max": 329.681192
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2744.45331,
+            "min": 2743.95063,
+            "max": 2744.65586
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.41471,
+            "min": 938.2157,
+            "max": 938.625124
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 329.549928,
+            "min": 329.522954,
+            "max": 329.610214
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2744.7131,
+            "min": 2744.07664,
+            "max": 2744.83025
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.100705,
+            "min": 937.914424,
+            "max": 938.403903
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 21504
+    },
+    {
+      "name": "g0-c4-i20000-r7",
+      "gpu": 0,
+      "chains": 4,
+      "iters": 20000,
+      "reps": 7,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 642.564666,
+            "min": 641.95907,
+            "max": 642.767568
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.56531,
+            "min": 2709.05825,
+            "max": 2709.65954
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1852.679,
+            "min": 1851.04603,
+            "max": 1853.22974
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.999294435972206,
+            "min": 0.9975027056800494,
+            "max": 0.9998700406553575
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.999564799562007,
+            "min": 0.9979612229300382,
+            "max": 1.000182742106627
+          },
+          "ratio_to_official_330_3_tflops": 1.945397111716621,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8092647173945409
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 642.450181,
+            "min": 641.859064,
+            "max": 642.674496
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.22585,
+            "min": 2708.82733,
+            "max": 2709.5261
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1852.76365,
+            "min": 1850.9949,
+            "max": 1853.18357
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.9986006069674623,
+            "min": 0.9980003750724293,
+            "max": 0.999227408127698
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9990462824734069,
+            "min": 0.9984277766803372,
+            "max": 0.9997973304581154
+          },
+          "ratio_to_official_330_3_tflops": 1.9450505025734182,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8093473879665247
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 642.977791,
+            "min": 642.679263,
+            "max": 643.587737
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2710.33381,
+            "min": 2710.22816,
+            "max": 2710.77979
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1853.39887,
+            "min": 1852.51238,
+            "max": 1854.82761
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 643.264693,
+            "min": 643.118823,
+            "max": 643.515897
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2710.35281,
+            "min": 2709.9293,
+            "max": 2711.27572
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1854.18865,
+            "min": 1853.13716,
+            "max": 1855.20262
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 325.656991,
+            "min": 325.555271,
+            "max": 325.70972
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.3557,
+            "min": 2708.61157,
+            "max": 2709.67911
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 939.121923,
+            "min": 938.699765,
+            "max": 939.200731
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 325.686405,
+            "min": 325.595696,
+            "max": 325.712169
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.61428,
+            "min": 2709.33565,
+            "max": 2710.29554
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 939.006581,
+            "min": 938.549007,
+            "max": 939.121575
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 325.746491,
+            "min": 325.64351,
+            "max": 325.842186
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2710.62251,
+            "min": 2710.46863,
+            "max": 2711.09136
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.859783,
+            "min": 938.545436,
+            "max": 939.135468
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 10752
+    },
+    {
+      "name": "g1-c4-i20000-r7",
+      "gpu": 1,
+      "chains": 4,
+      "iters": 20000,
+      "reps": 7,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 648.479729,
+            "min": 648.132364,
+            "max": 648.846974
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.0596,
+            "min": 2736.85285,
+            "max": 2737.31771
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1850.85816,
+            "min": 1849.99867,
+            "max": 1852.00574
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.998333064195296,
+            "min": 0.9972800698458312,
+            "max": 0.9987744000454563
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9984891178625848,
+            "min": 0.9974247658850145,
+            "max": 0.9988667915590567
+          },
+          "ratio_to_official_330_3_tflops": 1.9633052649106872,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8074865573042491
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 648.41896,
+            "min": 648.088662,
+            "max": 648.596446
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2736.93795,
+            "min": 2736.68825,
+            "max": 2737.14497
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1850.93608,
+            "min": 1850.0572,
+            "max": 1851.25735
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.9980769202123398,
+            "min": 0.9976888190372369,
+            "max": 0.998766919354702
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9983699979091074,
+            "min": 0.997862832676171,
+            "max": 0.9990564177304169
+          },
+          "ratio_to_official_330_3_tflops": 1.9631212836815015,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8075626500328377
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 649.675325,
+            "min": 649.214563,
+            "max": 649.975514
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.54751,
+            "min": 2737.28117,
+            "max": 2737.88132
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1853.83802,
+            "min": 1852.87935,
+            "max": 1855.10124
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 649.589982,
+            "min": 649.2195,
+            "max": 649.846152
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.53045,
+            "min": 2737.25362,
+            "max": 2737.94871
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1853.9232,
+            "min": 1852.68424,
+            "max": 1854.29293
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 328.734707,
+            "min": 328.688474,
+            "max": 328.760919
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2736.77913,
+            "min": 2736.2419,
+            "max": 2737.18226
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.365047,
+            "min": 938.190137,
+            "max": 938.600758
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 328.758424,
+            "min": 328.684715,
+            "max": 328.795924
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2736.7697,
+            "min": 2736.26248,
+            "max": 2737.23121
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.417166,
+            "min": 938.157625,
+            "max": 938.668969
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 328.80341,
+            "min": 328.770935,
+            "max": 328.910934
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.30362,
+            "min": 2737.26572,
+            "max": 2737.46319
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.428109,
+            "min": 938.353524,
+            "max": 938.685379
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 10752
+    },
+    {
+      "name": "g0-c16-i20000-r7",
+      "gpu": 0,
+      "chains": 16,
+      "iters": 20000,
+      "reps": 7,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 650.061031,
+            "min": 649.999384,
+            "max": 650.236285
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2710.33324,
+            "min": 2710.02074,
+            "max": 2710.64725
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1873.89477,
+            "min": 1873.47505,
+            "max": 1874.09577
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.9995896342722519,
+            "min": 0.9994739581217594,
+            "max": 0.9998655930870411
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9998434095401036,
+            "min": 0.9996410581842277,
+            "max": 1.0001101925245377
+          },
+          "ratio_to_official_330_3_tflops": 1.968092736905843,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.829983338804762
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 650.079302,
+            "min": 649.887036,
+            "max": 650.147736
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.84154,
+            "min": 2709.5506,
+            "max": 2710.00529
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1874.09491,
+            "min": 1873.83194,
+            "max": 1874.51585
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.9995913880942315,
+            "min": 0.9993191516184099,
+            "max": 1.0001229508857503
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9999387239543922,
+            "min": 0.9999073001732556,
+            "max": 1.0006095227669147
+          },
+          "ratio_to_official_330_3_tflops": 1.9681480532848925,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8301787856420362
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 650.323693,
+            "min": 650.170963,
+            "max": 650.395166
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2711.1536,
+            "min": 2710.7867,
+            "max": 2711.42078
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1874.13708,
+            "min": 1873.35757,
+            "max": 1874.36152
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 650.353052,
+            "min": 649.999384,
+            "max": 650.408063
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2711.14531,
+            "min": 2710.89933,
+            "max": 2711.44624
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1874.00566,
+            "min": 1872.95711,
+            "max": 1874.24268
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 325.548516,
+            "min": 325.531977,
+            "max": 325.562318
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.66196,
+            "min": 2709.33871,
+            "max": 2709.86385
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.643253,
+            "min": 938.518291,
+            "max": 938.733785
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 325.546983,
+            "min": 325.490656,
+            "max": 325.594783
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2709.96631,
+            "min": 2709.62817,
+            "max": 2710.20235
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.591302,
+            "min": 938.267858,
+            "max": 938.633503
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 325.967731,
+            "min": 325.957628,
+            "max": 325.980653
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2711.67581,
+            "min": 2711.37362,
+            "max": 2712.07475
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 939.157289,
+            "min": 938.966821,
+            "max": 939.25681
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 43008
+    },
+    {
+      "name": "g1-c16-i20000-r7",
+      "gpu": 1,
+      "chains": 16,
+      "iters": 20000,
+      "reps": 7,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 656.009172,
+            "min": 655.896664,
+            "max": 656.096211
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.2644,
+            "min": 2737.12561,
+            "max": 2737.37764
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1872.28965,
+            "min": 1872.10724,
+            "max": 1872.58185
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.9996492597448035,
+            "min": 0.9992076710557858,
+            "max": 0.9999772859381331
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9997196746910756,
+            "min": 0.9993408731596213,
+            "max": 1.0000153827190865
+          },
+          "ratio_to_official_330_3_tflops": 1.9861010354223434,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8284158354943145
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 656.043347,
+            "min": 655.966255,
+            "max": 656.054542
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.3827,
+            "min": 2737.2562,
+            "max": 2737.42194
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1872.34227,
+            "min": 1872.1964,
+            "max": 1872.44733
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 7,
+            "median": 0.9996397346780402,
+            "min": 0.9995204050059949,
+            "max": 0.9998691480246956
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 7,
+            "median": 0.9997192752024118,
+            "min": 0.9995472483640158,
+            "max": 0.9998934639577295
+          },
+          "ratio_to_official_330_3_tflops": 1.986204501967908,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.828467217016417
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 656.233117,
+            "min": 656.025333,
+            "max": 656.454691
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.52031,
+            "min": 2737.42943,
+            "max": 2737.59965
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1872.82412,
+            "min": 1872.23077,
+            "max": 1873.39693
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 656.288534,
+            "min": 656.092503,
+            "max": 656.360062
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.49479,
+            "min": 2737.43018,
+            "max": 2737.5458
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 1872.97312,
+            "min": 1872.41797,
+            "max": 1873.19036
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 328.534943,
+            "min": 328.459476,
+            "max": 328.572355
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.01041,
+            "min": 2736.9939,
+            "max": 2737.13574
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 937.773095,
+            "min": 937.554125,
+            "max": 937.841316
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 7,
+            "median": 328.582062,
+            "min": 328.543682,
+            "max": 328.605757
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.30002,
+            "min": 2737.25214,
+            "max": 2737.37902
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 937.806191,
+            "min": 937.689966,
+            "max": 937.880228
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 7,
+            "median": 329.018193,
+            "min": 328.979711,
+            "max": 329.04915
+          },
+          "block_clock_mhz": {
+            "n": 7,
+            "median": 2737.52506,
+            "min": 2737.50973,
+            "max": 2737.62883
+          },
+          "flops_per_sm_cycle": {
+            "n": 7,
+            "median": 938.967085,
+            "min": 938.860442,
+            "max": 939.063125
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 43008
+    },
+    {
+      "name": "g0-c8-i40000-r21",
+      "gpu": 0,
+      "chains": 8,
+      "iters": 40000,
+      "reps": 21,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 649.028902,
+            "min": 645.926142,
+            "max": 649.215797
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.05571,
+            "min": 2699.91215,
+            "max": 2710.97642
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1870.87343,
+            "min": 1869.02013,
+            "max": 1871.62032
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9992728625782314,
+            "min": 0.9987416037942861,
+            "max": 0.999646223120339
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9994325471658647,
+            "min": 0.9989741534478791,
+            "max": 0.9998060401894259
+          },
+          "ratio_to_official_330_3_tflops": 1.9649679140175598,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8270327992415951
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 649.035578,
+            "min": 645.945475,
+            "max": 649.212167
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2709.8851,
+            "min": 2699.89497,
+            "max": 2710.32571
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1871.0505,
+            "min": 1869.09246,
+            "max": 1871.49412
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9991980294893672,
+            "min": 0.9977385162767889,
+            "max": 1.0039434708667656
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9994458497553773,
+            "min": 0.9992768164953543,
+            "max": 1.004300703103323
+          },
+          "ratio_to_official_330_3_tflops": 1.9649881259461095,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8272057165641062
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 649.643046,
+            "min": 646.288701,
+            "max": 649.775963
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.79198,
+            "min": 2699.89981,
+            "max": 2711.3633
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1872.00147,
+            "min": 1870.05974,
+            "max": 1872.5762
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 649.600957,
+            "min": 646.323742,
+            "max": 649.80651
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.96184,
+            "min": 2699.90107,
+            "max": 2711.67835
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1871.95794,
+            "min": 1863.08606,
+            "max": 1872.61013
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 325.864609,
+            "min": 324.284854,
+            "max": 325.917699
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2709.75855,
+            "min": 2699.87057,
+            "max": 2710.66118
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 939.409312,
+            "min": 938.357772,
+            "max": 939.628041
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 325.870426,
+            "min": 324.292426,
+            "max": 325.910014
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2710.06957,
+            "min": 2699.87127,
+            "max": 2710.50897
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 939.321508,
+            "min": 938.362019,
+            "max": 939.54869
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 325.890365,
+            "min": 324.21828,
+            "max": 325.937022
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2711.37097,
+            "min": 2699.88886,
+            "max": 2711.81964
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.929701,
+            "min": 938.156338,
+            "max": 939.179071
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 21504
+    },
+    {
+      "name": "g1-c8-i40000-r21",
+      "gpu": 1,
+      "chains": 8,
+      "iters": 40000,
+      "reps": 21,
+      "results": {
+        "e4m3/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 655.003382,
+            "min": 654.893657,
+            "max": 655.141607
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.29261,
+            "min": 2734.75227,
+            "max": 2737.43882
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1869.43871,
+            "min": 1869.11066,
+            "max": 1871.4668
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9990212366691529,
+            "min": 0.9987357349088506,
+            "max": 0.9993581084035528
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9990681026370886,
+            "min": 0.9987759621399939,
+            "max": 0.9996026835997184
+          },
+          "ratio_to_official_330_3_tflops": 1.9830559551922493,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8256316953351468
+        },
+        "e5m2/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 655.058518,
+            "min": 654.880655,
+            "max": 655.175766
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.34644,
+            "min": 2734.80061,
+            "max": 2737.42078
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1869.56412,
+            "min": 1869.05567,
+            "max": 1871.55149
+          },
+          "f32_over_f16_accum_raw": {
+            "n": 21,
+            "median": 0.9990078838269191,
+            "min": 0.9987336985844995,
+            "max": 1.0036178151799426
+          },
+          "f32_over_f16_accum_clock_normalized": {
+            "n": 21,
+            "median": 0.9991449108849663,
+            "min": 0.9987903971637951,
+            "max": 1.0036996100971753
+          },
+          "ratio_to_official_330_3_tflops": 1.9832228822282774,
+          "ratio_to_same_clock_stock_theoretical_peak": 1.8257541647579176
+        },
+        "e4m3/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 655.666136,
+            "min": 655.562407,
+            "max": 655.755528
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.46751,
+            "min": 2735.71231,
+            "max": 2737.62053
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1871.18669,
+            "min": 1870.97475,
+            "max": 1872.55248
+          }
+        },
+        "e5m2/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 655.722642,
+            "min": 652.731796,
+            "max": 655.846945
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.50088,
+            "min": 2735.83264,
+            "max": 2737.61044
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 1871.35239,
+            "min": 1862.76927,
+            "max": 1872.79143
+          }
+        },
+        "bf16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 328.870614,
+            "min": 328.837455,
+            "max": 328.924687
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.04149,
+            "min": 2734.0794,
+            "max": 2737.33692
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.731435,
+            "min": 938.620269,
+            "max": 939.852501
+          }
+        },
+        "f16/f32": {
+          "tflops": {
+            "n": 21,
+            "median": 328.882463,
+            "min": 328.819649,
+            "max": 328.95846
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.10961,
+            "min": 2734.7029,
+            "max": 2737.4073
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.717592,
+            "min": 938.528624,
+            "max": 939.705566
+          }
+        },
+        "f16/f16": {
+          "tflops": {
+            "n": 21,
+            "median": 328.912798,
+            "min": 328.836859,
+            "max": 328.977548
+          },
+          "block_clock_mhz": {
+            "n": 21,
+            "median": 2737.47459,
+            "min": 2735.65081,
+            "max": 2737.67294
+          },
+          "flops_per_sm_cycle": {
+            "n": 21,
+            "median": 938.672267,
+            "min": 938.470645,
+            "max": 939.370681
+          }
+        }
+      },
+      "validation_checks": 21,
+      "validation_elements": 21504
+    }
+  ],
+  "validation_checks": 168,
+  "validation_elements": 193536,
+  "event_samples": 784,
+  "telemetry": [
+    {
+      "gpu": 0,
+      "samples": 47,
+      "max_power_w": 192.88,
+      "max_temperature_c": 46.0,
+      "sw_power_cap_samples": 0,
+      "hw_thermal_slowdown_samples": 0
+    },
+    {
+      "gpu": 1,
+      "samples": 47,
+      "max_power_w": 206.96,
+      "max_temperature_c": 50.0,
+      "sw_power_cap_samples": 0,
+      "hw_thermal_slowdown_samples": 0
+    }
+  ],
+  "postconditions": {
+    "same_boot": true,
+    "unlock_status_ok": true,
+    "power_limits_unchanged": true,
+    "service_gpu_pids_and_allocations_unchanged": true,
+    "total_used_memory_returned_to_baseline": true,
+    "observed_request_metrics_zero": true,
+    "new_xid_or_gpu_dropoff_in_readable_kernel_journal": false,
+    "journal_command_succeeded": true,
+    "journal_lines_in_test_window": 0,
+    "service_restarted": false,
+    "unlock_module_reloaded": false,
+    "boot_configuration_changed": false
+  },
+  "limits": [
+    "No local locked FP8 A/B arm; network reference is theoretical and uses a different clock.",
+    "Register-resident instruction benchmark, not GEMM or model throughput.",
+    "Short exact uniform-input checks do not qualify arbitrary FP8 numerics or training.",
+    "Long FP16 accumulation loses small increments without overflow; it is a throughput workload.",
+    "The baseline machine has a custom driver and modified 48 GiB boards.",
+    "Per-block cycle normalization is an estimate, not a frequency-locked comparison."
+  ]
+}

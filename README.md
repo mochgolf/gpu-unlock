@@ -11,6 +11,7 @@ The port adds a separate Bus Master Enable (BME) diagnostic, a pre-udev boot seq
 | [Hardware port](ports/supermicro-h13ssl/README.md) | Tested hardware, build steps, boot sequence, and limits |
 | [Boot/SSH reminder](monitoring/README.md) | Status checks and warning setup |
 | [Local benchmark report](benchmarks/2026-10-26/README.md) | Controlled A/B/A results, MOSS, Qwen, and operator tests |
+| [FP8 follow-up](benchmarks/2026-10-29/README.md) | Native FP8 instruction measurements and stock specification reference |
 | [Operator probes](benchmarks/operators/README.md) | Synthetic workload tools and measurement limits |
 | [Historical RTX 4090 report](rtx4090-register-report.md) | The separate upstream single-card experiment |
 
